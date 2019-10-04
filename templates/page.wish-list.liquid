@@ -1,0 +1,107 @@
+<div class="row">
+  <div id="col-main" class="col-md-12">
+
+    <div class="page">
+      {% if customer %}
+        <div class="table-cart">    
+          {% if customer.tags == empty %}
+            <div class="text-center">
+              <p>{{ 'wish_list.general.empty' | t }}</p>
+              <a href="/collections/all" class="btn btn-default">{{ 'wish_list.general.continue_shopping' | t }}</a>
+            </div>
+          {% else %}
+            <div class="wrap-table">
+              <table class="cart-items">
+                <thead>
+                  <tr class="top-labels">
+                    <th>&nbsp;</th>
+                    <th>&nbsp;</th>
+                    <th class="item">{{ 'cart.general.item' | t }}</th>
+                    <th class="price">{{ 'cart.general.price' | t }}</th>
+                    <th>&nbsp;</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for tag in customer.tags limit: 50 %}
+                    {% assign the_test = '' %}
+                    {% capture tag_id %}{{ tag }}{% endcapture %}
+                    {% assign tag_size = tag_id.size %}
+                  
+                    {% for tag in customer.tags %}
+                      {% capture cur_tag %}{{ tag }}{% endcapture %}
+                      {% if cur_tag contains tag_id %}
+                        {% assign difference = tag_size | minus:cur_tag.size %}
+                        {% if difference == 0 %}
+                          {% assign the_test = tag_id %}
+                        {% else %}
+                          {% assign the_test = '' %}
+                        {% endif %}
+                      {% endif %}
+                    {% endfor %}
+
+                  
+                      {% paginate collections.all.products by shop.products_count %}
+                  
+                        {% for product in collections.all.products %}
+                          {% capture product_id %}{{ product.id }}{% endcapture %}
+                  
+                          {% unless used contains product_id %}
+                  
+                            {% assign check = tag.size | minus:productID.size | modulo:2 %}
+                            {% if check == 0 %}{% assign display_product = true %}{% else %}{% assign display_product = false %}{% endif %}
+                  
+                            {% if display_product and the_test contains product_id %}
+
+                              <tr class="item wishlist-item">
+                                <td class="product-action">
+                                  {% form 'customer' %}
+                                  <input type="hidden" name="contact[email]" value="{{ customer.email }}"/>
+                                  <input type="hidden" name="contact[tags]" value="x{{ tag_id }}" />
+                                  <button type="submit" title="{{ 'wish_list.general.remove' | t }}"><span class="cart-remove-icon"></span></button>
+                                  {% endform %}
+                                </td>
+                                <td class="product-image">
+                                  <a class="image" href="{{ product.url }}"><img src="{{ product.featured_image | product_img_url: 'small' }}"  alt="{{ product.title }}" /></a>
+                                </td>
+                                
+                                <td class="product-title">
+                                  <a href="{{ product.url }}">{{ product.title }}</a>
+                                </td>
+                                
+                                <td class="product-price">{{ product.price | money }}</td>
+                                
+                                <td class="add-cart">
+                                  <form action="/cart/add" method="post">
+                                    <input type="hidden" name="id" value="{{ product.variants.first.id }}" />
+                                    {% if product.variants.size == 1 %}
+                                    <button type="submit" class="btn btn-default" title="{{ 'products.product.add_to_cart' | t }}">{{ 'products.product.add_to_cart' | t }}</button>
+                                    {% else %}
+                                    <button type="button" onclick="window.location='{{ product.url }}'" class="btn btn-default" title="{{ 'products.product.select_options' | t }}">{{ 'products.product.select_options' | t }}</button>
+                                    {% endif %}
+                                  </form>
+                                </td>
+                              </tr>
+
+                            {% capture used %}{{ product_id }} {{ used }}{% endcapture %}
+                            {% endif %}
+                          {% endunless %}
+                  
+                        {% endfor %}
+                  
+                      {% endpaginate %}
+                    {% endfor %}
+                </tbody>
+              </table>
+            </div>
+            
+          {% endif %}
+        </div>
+      {% else %}
+
+        <p class="text-center">{{ 'wish_list.general.note' | t }} <a href="/account/login">{{ 'wish_list.general.login' | t }}</a> {{ 'wish_list.general.or' | t }} <a href="/account/register">{{ 'wish_list.general.register' | t }}</a></p>
+      {% endif %}
+
+    </div>
+
+  </div>
+</div>

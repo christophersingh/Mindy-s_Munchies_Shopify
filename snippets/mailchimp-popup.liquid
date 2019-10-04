@@ -1,0 +1,29 @@
+{% if settings.show_mailchip_popup %}
+<div id="mailchimp-popup" style="display:none;" data-expires="{{settings.mailchip_popup_expires}}">
+
+  <div class="mailchimp-popup-content">
+    {% if settings.mailchip_popup_heading != blank %}
+    <h4 class="title">{{settings.mailchip_popup_heading}}</h4>
+    {% endif %}
+
+    {% if settings.mailchip_popup_content_1 != blank %}
+    <div class="mailchimp-caption-1">
+      <span>{{settings.mailchip_popup_content_1}}</span>
+    </div>
+    {% endif %}
+    
+    <form id="mc-form" action="/pages/subscribed" name="mc-embedded-subscribe-form" target="_blank">
+      <i class="fa fa-envelope"></i>
+      <input id="mc-email" class="input-block-level" type="email" name="EMAIL" placeholder="{{ settings.mailchip_popup_placeholder }}" required />
+      <button class="btn btn-default" type="submit">{{ settings.mailchip_popup_button }}</button>
+    </form>
+  </div>
+  
+  {% if settings.mailchip_popup_bg %}
+  <div class="mailchimp-popup-img">
+    <img alt="" src="{{'mailchip_popup_bg.jpg' | asset_url}}" />
+  </div>
+  {% endif %}
+  
+</div>
+{% endif %}

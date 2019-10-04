@@ -1,0 +1,34 @@
+{% capture accordion %}{% include 'shortcode-render' render:'action' %}{% endcapture %}
+
+{% case accordion %}
+
+{% when 'new accordions' %}
+<div class="panel-group" id="accordion">
+  {% when 'end accordions' %}
+</div>
+
+{% when 'new accordion' %}
+<div class="panel panel-default">
+  {% capture title %}{% include 'shortcode-render' render:'title' %}{% endcapture %}
+  {% capture number %}{% include 'shortcode-render' render:'number' %}{% endcapture %}
+  {% capture active %}{% include 'shortcode-render' render:'active' %}{% endcapture %}
+  {% capture collapse %}{% include 'shortcode-render' render:'collapse' %}{% endcapture %}
+  {% capture collapsed %}{% include 'shortcode-render' render:'collapsed' %}{% endcapture %}
+
+  <div class="panel-heading" id="heading{{ number }}">
+    <div class="panel-title">
+      <a data-toggle="collapse" data-parent="#accordion" href="#collapse{{ number }}" aria-expanded="{{ active }}" aria-controls="collapse{{ number }}" class="{{ collapsed }}">
+        {{ title }}
+      </a>
+    </div>
+  </div>
+
+  <div id="collapse{{ number }}" class="panel-collapse collapse {{ collapse }}" role="tabpanel" aria-labelledby="heading{{ number }}">
+    <div class="panel-body">
+
+      {% when 'end accordion' %}
+    </div>
+  </div>
+</div>
+
+{% endcase %}

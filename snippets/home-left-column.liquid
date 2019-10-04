@@ -1,0 +1,176 @@
+<div class="col-md-3 hidden-sm hidden-xs">
+  <div class="left-column-container">
+
+    <!-- Begin Banner -->
+
+    {% if settings.enable_left_column_banner %}
+    <div class="sb-banner">
+      <a class="bg-img" href="{{ settings.left_column_banner_link }}" style="background-image: url({{ 'left_column_banner.jpg' | asset_url }});"><span></span></a>
+
+      <div class="overlay-banner">
+        <div class="banner-content">
+
+          {% if settings.left_column_banner_text != blank %}
+          <h3>{{ settings.left_column_banner_text }}</h3>
+          {% endif %}
+
+        </div>
+      </div>
+    </div>
+    {% endif %}
+
+    <!-- End Banner -->
+
+
+    <!-- Begin Products #1-->
+
+    {% if settings.enable_left_product_1 and settings.left_product_col_1 != blank %}
+    <div class="sb-products">
+      <div class="sb-widget">
+
+        {% assign title = settings.left_product_title_1 %}
+        {% assign col = collections[settings.left_product_col_1] %}
+        {% assign limit = settings.left_product_limit_1 | plus: 0 %}
+        {% assign total = col.products.size %}
+
+        {% if total > 0 %}
+
+        {% if total > limit %}{% assign total = limit %}{% endif %}
+
+        {% if title != blank %}<h4 class="sb-title">{{ title }}</h4>{% endif %}
+
+        <div class="sb-product-list-1">
+          {% for product in col.products limit: total %}
+          {% capture mod %}{{ forloop.index | modulo: 3 }}{% endcapture %}
+
+          {% if mod == '1' %}
+          <div class="sb-wrap-product">
+            {% endif %}
+
+            {% include 'sb-product-item' %}
+
+            {% if mod == '0' or forloop.last %}
+          </div>
+          {% endif %}
+
+          {% endfor %}
+        </div>
+
+        {% endif %}
+
+      </div>
+    </div>
+    {% endif %}
+
+    <!-- End Products #1 -->
+
+
+    <!-- Begin Products #2-->
+
+    {% if settings.enable_left_product_2 and settings.left_product_col_2 != blank %}
+    <div class="sb-products">
+
+      {% assign col = collections[settings.left_product_col_2] %}
+      {% assign limit = settings.left_product_limit_2 | plus: 0 %}
+      {% assign total = col.products.size %}
+
+      {% if total > 0 %}
+
+      {% if total > limit %}{% assign total = limit %}{% endif %}
+
+      <div class="sb-product-list-2">
+        {% for product in col.products limit: total %}
+        {% include 'product-item' %}
+        {% endfor %}
+      </div>
+
+      {% endif %}
+
+    </div>
+    {% endif %}
+
+    <!-- End Products #2 -->
+
+
+    <!-- Begin Products #3-->
+
+    {% if settings.enable_left_product_3 and settings.left_product_col_3 != blank %}
+    <div class="sb-products">
+      <div class="sb-widget">
+
+        {% assign title = settings.left_product_title_3 %}
+        {% assign col = collections[settings.left_product_col_3] %}
+        {% assign limit = settings.left_product_limit_1 | plus: 0 %}
+        {% assign total = col.products.size %}
+
+        {% if total > 0 %}
+
+        {% if total > limit %}{% assign total = limit %}{% endif %}
+
+        {% if title != blank %}<h4 class="sb-title">{{ title }}</h4>{% endif %}
+
+        <div class="sb-product-list-3">
+          {% for product in col.products limit: total %}
+          {% capture mod %}{{ forloop.index | modulo: 3 }}{% endcapture %}
+
+          {% if mod == '1' %}
+          <div class="sb-wrap-product">
+            {% endif %}
+
+            {% include 'sb-product-item' %}
+
+            {% if mod == '0' or forloop.last %}
+          </div>
+          {% endif %}
+
+          {% endfor %}
+        </div>
+
+        {% endif %}
+
+      </div>
+    </div>
+    {% endif %}
+
+    <!-- End Products #3 -->
+
+
+    <!-- Begin Testimonials -->
+
+    <div class="sb-testimonials">
+      <div class="sb-widget">
+
+        <div class="testimonial-list">
+          {% for i in (1..3) %}
+          {% assign show = 'home_testimonials_' | append: i %}
+
+          {% if settings[show] %}
+
+          {% assign authorImage = 'review_author_' | append: i %}
+          {% assign authorName = 'review_name_' | append: i %}
+          {% assign authorJob = 'review_job_' | append: i %}
+          {% assign comment = 'review_content_' | append: i %}
+
+          <div class="testimonial-item">
+            <div class="testimonial-avatar">
+              <img src = "{{ authorImage | append: '.png' | asset_url }}" alt="" />
+            </div>
+            <div class="testimonial-infog">
+              {% if settings[comment] != blank %}<p>{{ settings[comment] }}</p>{% endif %}
+              {% if settings[authorName] != blank %}<h3>{{ settings[authorName] }}</h3>{% endif %}
+              {% if settings[authorJob] != blank %}<span>{{ settings[authorJob] }}</span>{% endif %}
+            </div>      
+          </div>
+
+          {% endif %}
+
+          {% endfor %}
+        </div>
+
+      </div>
+    </div>
+
+    <!-- End Testimonials -->
+
+  </div>
+</div>

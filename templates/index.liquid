@@ -1,0 +1,94 @@
+<div id="home-main-content">
+
+  {% comment %} No Products 
+  {% include 'if-shop-has-no-products' %}
+  {% endcomment %}
+
+  <!-- Begin Top Banner -->
+
+  {% if settings.enable_top_banner %}
+  {% include 'home-top-banner' %}
+  {% endif %}
+
+  <!-- End Top Banner -->
+
+
+  <!-- Begin Wrap Column -->
+
+  <div class="home-wrap-column">
+    <div class="row">
+
+      <div class="{% if settings.enable_left_column %}col-md-9{% else %}col-md-12{% endif %} col-sm-12">
+        <div class="wrap-main-column">
+
+          <!-- Begin Product Tabs -->
+
+          {% if settings.enable_home_tab %}
+          {% include 'home-tabs' %}
+          {% endif %}
+
+          <!-- End Product Tabs -->
+
+          <!-- Begin Banner -->
+
+          {% if settings.enable_home_banner %}
+          {% include 'home-banner' %}
+          {% endif %}
+
+          <!-- End Banner -->
+
+
+          <!-- Begin Product -->
+
+          {% if settings.enable_home_product_1 %}
+          {% include 'home-products' %}
+          {% endif %}
+
+          <!-- End Product -->
+
+        </div>
+      </div>
+      
+      
+      <!-- Begin Right Column -->
+
+      {% if settings.enable_left_column %}
+      {% include 'home-left-column' %}
+      {% endif %}
+
+      <!-- End Right Column -->
+
+    </div>
+  </div>
+
+  <!-- End Wrap Column -->
+
+  
+  <!-- Begin Collections -->
+
+  {% if settings.enable_home_collections %}
+  {% include 'home-collections' %}
+  {% endif %}
+
+  <!-- End Collections -->
+  
+
+  <!-- Begin Latest Blog -->
+
+  {% if settings.enable_home_blog %}
+  {% include 'home-blog' %}
+  {% endif %}
+
+  <!-- End Latest Blog -->
+
+
+  <!-- Begin Service Block -->
+
+  {% if settings.enable_home_service_block %}
+  {% include 'home-service' %}
+  {% endif %}
+
+  <!-- End Service Block -->
+
+
+</div>

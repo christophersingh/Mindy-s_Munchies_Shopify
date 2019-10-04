@@ -1,0 +1,74 @@
+<div id="home-top-banner">
+  <div class="row">
+
+    {% if settings.enable_top_banner_1 %}
+    <div class="col-md-{{ settings.top_banner_width_1 }} col-sm-12 col-xs-12">
+      <div class="top-banner-1">
+
+        <div class="bg-img" style="height:270px; background-image: url({{ 'top_banner_1.jpg' | asset_url }});"></div>
+
+        <div class="overlay-banner">
+          <div class="banner-content">
+
+            {% if settings.top_banner_text_1 != blank %}
+            <h3>{{ settings.top_banner_text_1 }}</h3>
+            {% endif %}
+
+            {% if settings.top_banner_button_1 != blank %}
+            <a href="{{ settings.top_banner_link_1 }}" class="tb-button">{{ settings.top_banner_button_1 }}</a>
+            {% endif %}
+          </div>
+        </div>
+
+      </div>
+    </div>
+    {% endif %}
+
+    {% if settings.enable_top_banner_2 %}
+    <div class="col-md-{{ settings.top_banner_width_2 }} col-sm-12 col-xs-12">
+      <div class="top-banner-2">
+
+        <div class="overlay">
+          <div class="bg-img" style="height:270px; background-image: url({{ 'top_banner_2.jpg' | asset_url }});"></div>
+        </div>
+
+        <div class="overlay-banner">
+          <div class="banner-content">
+            
+            {% if settings.top_banner_text_2 != blank %}
+            <p>{{ settings.top_banner_text_2 }}</p>
+            {% endif %}
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+    {% endif %}
+    
+    {% if settings.enable_top_banner_3 %}
+    <div class="col-md-{{ settings.top_banner_width_3 }} col-sm-12 col-xs-12">
+      <div class="top-banner-3">
+
+        <div class="bg-img" style="height:270px; background-image: url({{ 'top_banner_3.jpg' | asset_url }});"></div>
+
+        <div class="overlay-banner">
+          <div class="banner-content">
+            
+            {% if settings.top_banner_text_3 != blank %}
+            <h3>{{ settings.top_banner_text_3 }}</h3>
+            {% endif %}
+
+            {% if settings.top_banner_button_3 != blank %}
+            <a href="{{ settings.top_banner_link_3 }}" class="tb-button">{{ settings.top_banner_button_3 }}</a>
+            {% endif %}
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+    {% endif %}
+
+  </div>
+</div>

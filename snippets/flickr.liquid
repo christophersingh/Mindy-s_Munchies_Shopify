@@ -1,0 +1,38 @@
+{{ "jflickrfeed.js" | asset_url | script_tag }}
+
+<div class="sb-flickr">
+  <div class="sb-widget">
+
+    {% if settings.sidebar_blog_flickr_title != blank %}
+    <h4 class="sb-title">{{ settings.sidebar_blog_flickr_title }}</h4>
+    {% endif %}
+
+    <ul id="flickr-{{flickr}}" class="flickr thumbs list-inline"></ul>
+
+  </div>
+</div>
+
+<script type="text/javascript">
+  jQuery(document).ready(function($) {
+    
+    $('#flickr-{{flickr}}').jflickrfeed({
+      limit: {{settings.sidebar_blog_flickr_limit}},
+      qstrings: {
+        id: '{{settings.sidebar_blog_flickr_id}}'
+	  },
+	  itemTemplate: '<li>'+
+						'<a class="flickr_fancybox" data-fancybox-group="flickr_button" href="{flickr}image{/flickr}" title="{flickr}title{/flickr}">' +
+							'<img src="{flickr}image_s{/flickr}" alt="{flickr}title{/flickr}" />' +
+						'</a>' +
+					  '</li>'
+	}, function(data) {
+      $('#flickr-{{flickr}} .flickr_fancybox').fancybox({
+        closeBtn  : false,
+        helpers : {
+          buttons	: {}
+        }
+      });
+	});
+    
+  });
+</script>

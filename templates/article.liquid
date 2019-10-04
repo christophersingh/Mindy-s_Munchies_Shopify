@@ -1,0 +1,131 @@
+<div id="col-main" class="post post-single">
+  <div class="row">
+
+    {% if settings.blog_sb_placement == 'left' %}
+    {% include 'sidebar-blog' %}
+    {% endif %}
+
+    {% paginate article.comments by settings.comment_pagination_limit %}
+
+    <div class="{% if settings.blog_sb_placement == 'none' %}col-md-12{% else%}col-md-9{% endif %}">
+      <article class="post">
+        
+        {% if article.excerpt.size > 0 %}
+        <div class="post-image">
+          <a href="{{ article.url }}">
+            {{ article.excerpt }}
+          </a>
+        </div>
+        {% endif %}
+
+        <div class="post-content">
+          <h2 class="post-title"><a href="{{article.url}}">{{ article.title }}</a></h2>
+
+          <div class="post-meta">
+            <ul class="post-meta list-inline">
+              <li class="author"><i class="f-user p-color"></i><span>{{ article.author | escape }}</span></li>
+              <li class="date"><i class="f-clock p-color"></i><span>{{ article.created_at | date: "%b %d, %Y" }}</span></li>
+              <li class="comment"><i class="f-comment p-color"></i><span>{{ article.comments_count }} Comments</span></li>
+            </ul>
+          </div>
+
+          <div class="post-des">{{ article.content }}</div>
+          
+          {% if article.tags.size > 0 %}
+          <div class="meta-tags">
+            <span>{{ 'blogs.article.tag' | t }}:</span>
+            {% for tag in article.tags %}
+            <a href="{{ blog.url }}/tagged/{{ tag | handle }}">{{ tag }}</a>
+            {% endfor %}
+          </div>
+          {% endif %}
+          
+          {% if settings.show_social_sharing_blog %}
+          {% include 'social-sharing' %}
+          {% endif %}
+        </div>
+
+        {% if blog.comments_enabled? %}
+          <div class="post-comment-form">
+            {% if article.comments != blank %}
+            {% assign number_of_comments = article.comments_count %}
+            {% if comment and comment.created_at %}
+            {% assign number_of_comments = article.comments_count | plus: 1 %}
+            {% endif %}
+
+            <div id="comments" class="comments-list">
+              <h3>{{ 'blogs.comments.comments_with_count' | t: count: blogs.comments.comments_with_count }} ({{ number_of_comments }})</h3>
+              {% comment %} Loop through approved comments: {% endcomment %}        
+              {% for comment in article.comments reversed %}
+              {% include 'comment-template' %}
+              {% endfor %}  
+
+              {% comment %} Show a comment that was *just* submitted {% endcomment %}
+              {% if comment and comment.created_at %}
+              {% include 'comment-template' %}
+              {% endif %}
+              {% include 'pagination' %}
+            </div>
+            {% endif %}
+
+            {% form article %}
+              <div id="comment-form" class="comments">
+
+                <h3>{{ 'blogs.comments.title' | t }}</h3>
+
+                {% if blog.moderated? %}
+                <p>{{ 'blogs.comments.moderated' | t }}</p>
+                {% endif %}
+
+                {% if form.posted_successfully? %}
+                  {% if blog.moderated? %}
+                    <div class="alert alert-success">
+                      <button type="button" class="close" data-dismiss="alert">×</button>
+                      {{ 'blogs.comments.success_moderated' | t }}
+                    </div>
+                  {% else %}
+                    <div class="alert alert-success">
+                      <button type="button" class="close" data-dismiss="alert">×</button>
+                      {{ 'blogs.comments.success' | t }}
+                    </div>
+                  {% endif %}
+                {% endif %}
+
+                {% if form.errors %}
+                <div class="alert alert-error">
+                  <button type="button" class="close" data-dismiss="alert">×</button>
+                  {{ form.errors | default_errors }}
+                </div>
+                {% endif %}
+
+                  
+                <div class="control-wrapper{% if form.errors contains 'author' %} error{% endif %}">
+                  <input required placeholder="{{ 'blogs.comments.name' | t }} *" type="text" id="comment_author" name="comment[author]" value="{% if form.author %}{{ form.author }}{% elsif customer %}{{ customer.first_name }} {{ customer.last_name }}{% endif %}" />
+                </div>
+                <div class="control-wrapper{% if form.errors contains 'email' %} error{% endif %}">
+                  <input required placeholder="{{ 'blogs.comments.email' | t }} *" type="text" id="comment_email" name="comment[email]" value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}" />
+                </div>
+
+                <div class="control-wrapper{% if form.errors contains 'body' %} error{% endif %}">
+                  <textarea required placeholder="{{ 'blogs.comments.message' | t }} *" id="comment_body" name="comment[body]" cols="50" rows="6">{{form.body}}</textarea>
+                </div>
+
+                <div class="control-wrapper last">
+                  <button type="submit" id="comment-submit" class="btn btn-default">{{ 'blogs.comments.submit' | t }}</button>
+                </div>
+
+              </div>
+            {% endform %}
+          </div>
+        {% endif %}
+
+      </article>
+    </div>
+    {% endpaginate %}
+
+    {% if settings.blog_sb_placement == 'right' %}
+    {% include 'sidebar-blog' %}
+    {% endif %}
+
+  </div>
+</div>

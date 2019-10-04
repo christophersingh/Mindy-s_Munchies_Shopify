@@ -1,0 +1,69 @@
+<div id="col-main" class="page-blog">
+  <div class="row">
+
+    {% if settings.blog_sb_placement == 'left' %}
+    {% include 'sidebar-blog' %}
+    {% endif %}
+
+    {% paginate blog.articles by settings.blog_pagination_limit %}
+
+    {% if blog.articles.size > 0 %}
+    <div class="{% if settings.blog_sb_placement == 'none' %}col-md-12{% else%}col-md-9{% endif %}">
+      <div class="blog-grid">
+
+        {% for article in blog.articles %}
+
+        <article class="post">
+          
+          <div class="post-image">
+            {% if article.excerpt.size > 0 %}
+            <a href="{{ article.url }}">
+              {{ article.excerpt }}
+            </a>
+            {% else %}
+              {% if article.image %}
+              {% assign image_alt = article.title | escape %}
+              {{ article | img_url: '1024x1024' | img_tag: image_alt | link_to: article.url }}
+              {% endif %}
+            {% endif %}
+          </div>
+          
+          <div class="post-content">
+            <h2 class="post-title"><a href="{{article.url}}">{{ article.title }}</a></h2>
+
+            <ul class="post-meta list-inline">
+              <li class="author"><i class="f-user p-color"></i><span>{{ article.author | escape }}</span></li>
+              <li class="date"><i class="f-clock p-color"></i><span>{{ article.created_at | date: "%b %d, %Y" }}</span></li>
+              <li class="comment"><i class="f-comment p-color"></i><span>{{ article.comments_count }} Comments</span></li>
+            </ul>
+
+            <div class="post-des">
+              {{ article.content | strip_html | truncatewords: 60 }}
+              <a class="link-to-post" href="{{article.url}}" title="{{ 'blogs.article.read_more' | t }}">{{ 'blogs.article.read_more' | t }}</a>
+            </div>
+          </div>
+
+        </article>
+
+        {% endfor %} 
+
+      </div>
+
+      {% include 'pagination' %}
+
+      {% else %}
+      <p>
+        {{'blogs.article.no_acticles' | t }}
+      </p>
+
+      {% endif %}
+
+    </div>
+    {% endpaginate %}
+
+    {% if settings.blog_sb_placement == 'right' %}
+    {% include 'sidebar-blog' %}
+    {% endif %}
+
+  </div>
+</div>

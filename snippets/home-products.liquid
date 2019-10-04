@@ -1,0 +1,47 @@
+<script src="{{ 'isotope.js' | asset_url }}"></script>
+
+{% assign title = 'home_product_title_1' %}
+{% assign col = 'home_product_col_1' %}
+{% assign col = collections[settings[col]] %}
+{% assign limit = 'home_product_limit_1' %}
+{% assign limit = settings[limit] | plus: 0 %}
+{% assign total = col.products.size %}
+
+{% if total > 0 %}
+
+{% if total > limit %}{% assign total = limit %}{% endif %}
+<div class="home-product">
+
+  <div class="title-wrapper">
+    <h3>{% if settings[title] != blank %}{{ settings[title] }}{% else %}{{col.title}}{% endif %}</h3>
+  </div>
+
+  <div class="product-list">
+    {% for product in col.products limit: total %}
+    
+    {% assign index = forloop.index | plus: 0 %}
+
+    {% if index == 1 or index == 6  %}
+    <div class="item double-size">
+      {% include 'big-product-item' %}
+    </div>
+    
+    {% elsif index == 3 or index == 8  %}
+    
+    <div class="item double-height">
+      {% include 'big-product-item' %}
+    </div>
+    
+    {% else %}
+    <div class="item normal-size">
+      {% include 'big-product-item' %}
+    </div>
+
+    {% endif %}
+
+    {% endfor %}
+  </div>
+
+</div>
+
+{% endif %}

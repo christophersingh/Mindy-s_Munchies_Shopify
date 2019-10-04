@@ -1,0 +1,126 @@
+<div id="sidebar-blog" class="col-md-3 left-column-container hidden-sm hidden-xs">
+  
+  {% if settings.enable_blog_social %}
+  <div class="sb-social">
+
+    {% if settings.blog_social_title != blank %}
+    <div class="social-title">{{ settings.blog_social_title }}</div>
+    {% endif %}
+
+    <ul class="widget-social list-inline">
+      {% if settings.social_icons_facebook_show %}
+      <li>
+        <a target="_blank" href="{{ settings.social_icons_facebook_link }}" class="social-icon-inner facebook" title="Facebook">
+          <i class="fa fa-facebook"></i>
+        </a>
+      </li>
+      {% endif %}
+
+      {% if settings.social_icons_twitter_show %}
+      <li>
+        <a target="_blank" href="{{ settings.social_icons_twitter_link }}" class="social-icon-inner twitter" title="Twitter">
+          <i class="fa fa-twitter"></i>
+        </a>
+      </li>
+      {% endif %}
+
+      {% if settings.social_icons_vimeo_show %}
+      <li>
+        <a target="_blank" href="{{ settings.social_icons_vimeo_link }}" class="social-icon-inner vimeo" title="Vimeo">
+          <i class="fa fa-vimeo"></i>
+        </a>
+      </li>
+      {% endif %}
+
+      {% if settings.social_icons_pinterest_show %}
+      <li>
+        <a target="_blank" href="{{ settings.social_icons_pinterest_link }}" class="social-icon-inner pinterest" title="Pinterest">
+          <i class="fa fa-pinterest"></i>
+        </a>
+      </li>
+      {% endif %}
+    </ul>
+    
+  </div>
+  {% endif %}
+  
+  {% if settings.enable_blog_search %}
+  <div class="sb-search">
+    <div class="sb-widget">
+      
+      {% if settings.blog_search_title != blank %}
+      <h4 class="sb-title">{{ settings.blog_search_title }}</h4>
+      {% endif %}
+      
+      <div class="search-blog">
+        <form action="/search" method="get">
+
+          <input type="hidden" name="type" value="article">
+          <input type="text" name="q" class="form-control" placeholder="Search..." autocomplete="off">
+          <button type="submit" class="btn btn-default">Search</button>
+
+        </form>
+      </div>
+      
+    </div>
+  </div>
+  {% endif %}
+  
+  {% if settings.enable_tags_in_blog %}
+  <div class="sb-blog-tag">
+    <div class="sb-widget">
+
+      {% if settings.tags_in_blog_title != blank %}
+      <h4 class="sb-title">{{ settings.tags_in_blog_title }}</h4>
+      {% endif %}
+
+      <ul class="list-inline">
+        <li><a href="{{ shop.url}}/blogs/{{ blog.handle }}/tagged/all">All</a></li>
+        {% for tag in blog.all_tags %}
+        {% if current_tags contains tag %}
+        <li class="active">{{ tag | link_to_remove_tag: tag }}</li>
+        {% else %}
+        <li>{{ tag | link_to_add_tag: tag }}</li>
+        {% endif %}
+        {% endfor %}
+      </ul>
+
+    </div>
+  </div>
+  {% endif %}
+
+  {% if settings.enable_recent_articles %}
+  <div class="sb-blog-recent">
+    <div class="sb-widget">
+
+      {% if settings.recent_articles_title != blank %}
+      <h4 class="sb-title">{{ settings.recent_articles_title }}</h4>
+      {% endif %}
+
+      <div class="recent-post-list">
+        {% for article in blog.articles limit:settings.recent_articles_number %}
+
+        {% capture mod %}{{ forloop.index | modulo: 2 }}{% endcapture %}
+
+        <div class="recent-post-item">
+          <div class="recent-media-thumb">
+            {% if article.image %}
+            {% assign image_alt = article.title | escape %}
+            <a href={{article.url}}>{{ article | img_url: '1024x1024' | img_tag: image_alt }}</a>
+            {% endif %}
+          </div>
+
+          <div class="recent-media-content">
+            <a href="{{article.url}}">{{ article.title }}</a>
+            <span class="date">{{ article.created_at | date: "%b %d, %Y" }}</span>
+          </div>
+        </div>
+
+        {% endfor %}
+      </div>
+
+    </div>
+  </div>
+  {% endif %}
+
+</div>

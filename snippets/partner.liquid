@@ -1,0 +1,23 @@
+<div class="home-partner">
+  <div class="container">
+
+    <div id="widget-partner" class="partner-container">
+      {% for i in (1..10) %}
+      {% assign show = 'partner_logo_show_' | append: i %}
+
+      {% if settings[show] %}
+
+      {% assign image = 'partner_logo_' | append: i %}
+      {% assign link = 'partner_link_' | append: i %}
+
+      <div class="partner-item">
+        <a href="{{ settings[link] }}"><img src="{{ image | append: '.png' | asset_url }}" alt="" /></a>
+      </div>
+
+      {% endif %}
+
+      {% endfor %}
+    </div>
+
+  </div>
+</div>

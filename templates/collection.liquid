@@ -1,0 +1,38 @@
+<div class="page-cata">
+  <div class="row">
+    
+    {% if settings.catalog_sb_placement == 'left' %}
+    {% include 'sidebar-catalog' %}
+    {% endif %}
+    
+    {% paginate collection.products by settings.number_product_per_page %}
+
+    <div class="{% if settings.catalog_sb_placement == 'none' %}col-md-12{% else %}col-md-9{% endif %}">
+      <div id="col-main">
+
+        {% include 'cata-toolbar' %}
+
+        <div class="cata-product cp-grid clearfix">
+          {% if collection.products.size > 0 %}
+          
+          {% for product in collection.products %}
+          <div class="product-grid-item product-price-range" data-price="{{ product.price | divided_by: 100 }}">
+            {% include 'product-item' %}
+          </div>
+          {% endfor %}
+          
+          {% endif %}
+        </div>
+
+      </div>
+
+      {% include 'pagination' %}
+      {% endpaginate %}
+    </div>
+
+    {% if settings.catalog_sb_placement == 'right' %}
+    {% include 'sidebar-catalog' %}
+    {% endif %}
+    
+  </div>
+</div>

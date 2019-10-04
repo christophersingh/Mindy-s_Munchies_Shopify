@@ -1,0 +1,46 @@
+<div id="col-main" class="page-content page-about-us">
+
+  {% if settings.enable_ab_service %}
+  <div class="au-service">
+    <div class="row">
+
+      {% for i in (1..6) %}
+      {% assign show = 'enable_ab_block_' | append: i %}
+
+      {% if settings[show] %}
+      {% assign image = 'ab_image_block_' | append: i %}
+      {% assign title = 'ab_title_block_' | append: i %}
+      {% assign caption = 'ab_caption_block_' | append: i %}
+
+      <div class="col-md-4 col-sm-6 col-xs-12">
+        <div class="aus-item text-center">
+          <img src = "{{ image | append: '.jpg' | asset_url }}" alt="" />
+          {% if settings[title] != blank %}<h3>{{ settings[title] }}</h3>{% endif %}
+          {% if settings[caption] != blank %}<p>{{ settings[caption] }}</p>{% endif %}
+        </div>
+      </div>
+      {% endif %}
+
+      {% endfor %}
+
+    </div>
+  </div>
+  {% endif %}
+
+
+  {% if settings.enable_ab_slider %}
+  <div class="au-slider-wrapper">
+    
+    {% if settings.ab_slider_title != blank %}<h2>{{ settings.ab_slider_title }}</h2>{% endif %}
+    
+    <div class="au-slider">
+      {% for i in (1..4) %}
+      {% assign image_slider = 'ab_image_slide_' | append: i %}
+      <img src = "{{ image_slider | append: '.jpg' | asset_url }}" alt="" />
+      {% endfor %}
+    </div>
+    
+  </div>
+  {% endif %}
+
+</div>

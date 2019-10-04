@@ -1,0 +1,114 @@
+<div class="row">
+  <div id="col-main" class="col-sm-12 page-cart">
+    
+    <div class="text-center cart-empty-wrapper" rv-show="cart.item_count | lt 1">
+      <p class="cart empty">{{ 'cart.general.empty' | t }}</p>
+      <a href="/collections/all"><i class="fa fa-long-arrow-right"></i> {{ 'cart.general.continue_shopping' | t }}</a>
+    </div>
+
+    
+    <form action="/cart" method="post" id="cartform"  rv-show="cart.item_count | gt 0">
+      <div class="cart-table">
+        <table>
+
+          <thead>
+            <tr>
+              <th class="remove">&nbsp;</th>
+              <th class="item">{{ 'cart.general.item' | t }}</th>
+              <th class="price">{{ 'cart.general.price' | t }}</th>
+              <th class="qty">{{ 'cart.general.quantity' | t }}</th>
+              <th class="total-price">{{ 'cart.general.total' | t }}</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            
+            <!--Apply CartJS with Rivet.js-->
+            
+            <tr rv-class="item | append item.handle" rv-each-item="cart.items">
+              <td class="action"><button type="button" rv-data-cart-remove="index | plus 1" title="{{ 'cart.general.remove' | t }}"><span class="cart-remove-icon"></span></td>
+              <td class="item-name">
+                <a rv-href="item.url">
+                  <img rv-src="item.image | productImageSize small"  rv-alt="item.title" />
+                </a>
+                <div class="item-title">
+                  <a rv-href="item.url">
+                    <span class="item-name" rv-text="item.product_title"></span>
+                  </a>
+                  <p class="item-variant">Variant: <span class="i-variant" rv-text="item.variant_title"></span></p>
+                </div>
+              </td>
+              <td class="item-price" rv-html="item.price | money"></td>
+              <td class="item-qty">
+                <div class="quantity">
+                  <input readonly class="replace input-cart-qty" rv-id="item.id | prepend updates_" name="updates[]" rv-value="item.quantity" />
+                  <span class="qty-wrapper">
+                    <span class="qty-inner">
+
+                      <span rv-class="item.id | prepend qty-up- | append | append qty-up" title="Increase" data-src="#quantity" rv-data-cart-update="index | plus 1" rv-data-cart-quantity="item.quantity | plus 1">
+                        <i class="fa fa-plus"></i>
+                      </span>
+
+                      <span rv-class="item.id | prepend qty-down- | append | append qty-down" title="Decrease" data-src="#quantity" rv-data-cart-update="index | plus 1" rv-data-cart-quantity="item.quantity | minus 1">
+                        <i class="fa fa-minus"></i>
+                      </span>
+
+                    </span>
+                  </span>
+                  
+                </div>
+              </td>
+              <td class="item-total" rv-html="item.line_price | money"></td>
+            </tr>
+
+            <!-- Apply CartJS with Rivet.js -/-->
+            
+            <tr>
+              <td colspan="6">
+                <a href="/collections/all" class="btn btn-primary">{{ 'cart.general.continue_shopping' | t }}</a>
+                <button class="btn btn-default" type="submit" name="checkout">{{ 'cart.general.checkout' | t }}</button>
+              </td>
+            </tr>
+
+          </tbody>
+
+        </table>
+      </div>
+
+      <div class="row">
+
+        <div class="col-sm-6 col-xs-12 shipping-estimate">
+          {% include 'shipping-calculator' %}
+        </div>
+
+        <div class="col-sm-6 col-xs-12 cart-right">
+          <div class="cart-right-table">
+            <h4>Cart Totals</h4>
+            <div class="total-price">{{ 'cart.general.grand_total' | t }} <span rv-html="cart.total_price | money"></span></div>
+            <div class="note-tax">{{ 'customer.order.shipping' | t }}: <span>{{ 'cart.general.note_checkout' | t }}</span></div>
+          </div>
+        </div>
+
+      </div>
+    </form>
+    
+    <script>
+      $(window).load(function() {
+
+        $(".item-variant>span").each(function() {
+          var _this = $(this);
+          if (_this.html() == "") {
+            _this.parent().addClass('hide');
+          }
+        })
+        
+      })
+    </script>
+    
+    {% unless settings.shipping_calculator == 'Enable' %}
+    {% include 'shipping-calculator-js' %}
+    {% endunless %}
+
+  </div>
+</div>
+

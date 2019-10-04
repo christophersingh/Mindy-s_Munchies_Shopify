@@ -1,0 +1,56 @@
+{% assign submenu = l.title | handleize %}
+{% if linklists[submenu].links.size > 0 %}
+
+  {% if settings.use_super_megamenu == false %}
+    {% include 'dropdown-menu' %}
+
+  {% else %}
+	{% assign have_super_menu = false %}
+
+    {% for i in (1..2) %}
+	  {% assign super_menu_handle = 'mega_linklist_' | append : i %}
+      {% assign super_menu_handle = settings[super_menu_handle] %}
+
+      {% if super_menu_handle == l.handle %}
+        {% assign have_super_menu = true %}
+
+        {% if have_super_menu == true %}
+        {% assign number = i %}
+        {% break %}
+        {% endif %}
+
+      {% endif %}
+
+    {% endfor %}
+
+	{% if have_super_menu == true %}
+		<li class="dropdown mega-menu{% if l.active %} active{% endif %}" style="text-align:center;">
+          <a href="{{ l.url }}" class="dropdown-link">
+            <span>{{ l.title }}</span>
+          </a>
+          
+          {% if nav-link == 0 %}
+          <span class="expand" style="text-align:center;">
+            <i class="fa fa-long-arrow-right hidden-xs"></i>
+            <i class="fa fa-plus visible-xs"></i>
+          </span>
+          {% endif %}
+          
+          {% include 'horizontal-mega-menu' with 'number' %}
+        </li>
+
+	{% else %}
+		{% include 'dropdown-menu' %}
+
+	{% endif %}
+    
+
+  {% endif %}
+{% else %}
+  <li class="{% if l.active %}active{% endif %} " style="text-align:center;">
+    <a href="{{ l.url }}" style="text-align:center;">
+      <span>{{ l.title }}</span>
+    </a>
+  </li>
+
+{% endif %}

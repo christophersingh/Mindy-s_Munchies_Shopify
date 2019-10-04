@@ -1,0 +1,31 @@
+<article class="post">
+
+  <div class="post-image">
+    {% if product.excerpt.size > 0 %}
+    <a href="{{ product.url }}">
+      {{ product.excerpt }}
+    </a>
+    {% else %}
+    {% if article.image %}
+    {% assign image_alt = product.title | escape %}
+    {{ product | img_url: '1024x1024' | img_tag: image_alt | link_to: product.url }}
+    {% endif %}
+    {% endif %}
+  </div>
+
+  <div class="post-content">
+    <h2 class="post-title"><a href="{{product.url}}">{{ product.title }}</a></h2>
+
+    <ul class="post-meta list-inline">
+      <li class="author"><i class="f-user p-color"></i><span>{{ product.author | escape }}</span></li>
+      <li class="date"><i class="f-clock p-color"></i><span>{{ product.created_at | date: "%b %d, %Y" }}</span></li>
+      <li class="comment"><i class="f-comment p-color"></i><span>{{ product.comments_count }} Comments</span></li>
+    </ul>
+
+    <div class="post-des">
+      {{ product.content | strip_html | truncatewords: 60 }}
+      <a class="link-to-post" href="{{article.url}}" title="{{ 'blogs.article.read_more' | t }}">{{ 'blogs.article.read_more' | t }}</a>
+    </div>
+  </div>
+
+</article>

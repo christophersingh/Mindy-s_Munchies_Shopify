@@ -1,0 +1,55 @@
+{% if template contains 'article' or template contains 'blog' %}
+{% capture permalinkURL %}{{ shop.url }}{{ article.url }}{% endcapture %}
+{% capture shareTitle %}{{ article.title }}{% endcapture %}
+{% capture shareHandle %}{{ article.handle }}{% endcapture %}
+
+{% else %}
+{% capture permalinkURL %}{{ shop.url }}{{ product.url }}{% endcapture %}
+{% capture shareTitle %}{{ product.title }}{% endcapture %}
+{% capture shareHandle %}{{ product.handle }}{% endcapture %}
+
+{% endif %}
+
+<div class="share-links social-sharing" data-permalink="{{ permalinkURL }}">
+
+  {% unless settings.social_sharing_title == blank %}
+  <span class="share-label">{{settings.social_sharing_title }}</span>
+  {% endunless %}
+
+  <ul class="list-inline">
+
+    {% if settings.share_facebook %}
+    <li>
+      <a target="_blank" href="//www.facebook.com/sharer.php?u={{ permalinkURL }}" title="Facebook">
+        <i class="fa fa-facebook"></i>
+      </a>
+    </li>
+    {% endif %}
+
+    {% if settings.share_twitter %}
+    <li>
+      <a target="_blank" href="//twitter.com/share?url={{ permalinkURL }}&amp;text={{ shareHandle }}" title="Twitter">
+        <i class="fa fa-twitter"></i>
+      </a>
+    </li>
+    {% endif %}
+
+    {% if settings.share_pinterest %}
+    <li>
+      <a target="_blank" href="//pinterest.com/pin/create/button/?url={{ permalinkURL }}&amp;media=http:{% if template contains 'product' %}{{ product | img_url: '1024x1024' }}{% else %}{{ article | img_url: '1024x1024' }}{% endif %}&amp;description={{ shareHandle }}" class="share-pinterest">
+        <i class="fa fa-pinterest" title="Share an image of this article on Pinterest"></i>
+      </a>
+    </li>
+    {% endif %}
+
+    {% if settings.share_google %}
+    <li>
+      <a target="_blank" href="//plus.google.com/share?url={{ permalinkURL }}" title="Google">
+        <i class="fa fa-google-plus"></i>
+      </a>
+    </li>
+    {% endif %}
+
+  </ul>
+
+</div>

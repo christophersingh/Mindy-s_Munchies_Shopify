@@ -1,0 +1,473 @@
+/* Static color */
+$black:              #000000;
+$light-brown:        #878787;
+$white:              #ffffff;
+$link-hover-color:   #fdb3a6;
+$color-fa:           #25262c;
+$color-title:        #333333;
+$color-dark-light:   #888888;
+$other-color:        #3f3f3f;
+$color-star:         #ffc000;
+$bg-hover:           #cbc6b5;
+$bg-icon:            #3f3f3f;
+$bg-other:           #eaecee;
+$bg-menu-mobile: 	   #444444;
+$border-light:       #f7f7f7;
+$border-dark:        #1e1e1e;
+$border-hover:       #ededed;
+$border-menu-mobile: #4c4c4c;
+$bg-header-link-hover: #ede9dd;
+
+/* Font */
+$font-heading:       '{{settings.header_font_1}}', Arial, Helvetica, sans-serif;
+$font-product-title: '{{settings.product_font}}', Arial, Helvetica, sans-serif;
+$font-nav:           '{{settings.nav_font }}', Arial, Helvetica, sans-serif; // 14px;
+$font-standard:      '{{settings.general_font_1}}', Arial, Helvetica, sans-serif;
+$body-font-size:      {{settings.body_font_size}}; // 14px;
+$font-small:  13px;
+$font-medium: 15px;
+$size-h1:     40px;
+$size-h2:     35px;
+$size-h3:     30px;
+$size-h4:     25px;
+$size-h5:     20px;
+$size-h6:     18px;
+
+$header-topbar-background:    {{settings.header_background_color}}; //#fdb3a6;
+$header-background:           {{settings.header_bg_color}};
+
+/* Navigation */
+$bg-main-nav:                   {{settings.nav_link_bg}}; //#fdb3a6;
+$nav-font-size:                 {{settings.nav_size}}; // font-size: 14px;
+$nav-link-color:                {{settings.nav_link_color}}; //#191919;
+$nav-link-hover-color:          {{settings.nav_hover_color}};//#fff;
+$nav-dropdown-background:       {{settings.dropdown_bg_color}}; //#fdb3a6;
+$nav-dropdown-link-color:       {{settings.dropdown_item_color}}; //#333;
+$nav-dropdown-link-hover-color: {{settings.dropdown_item_color_hover}}; //#fdb3a6;
+
+/* Body */
+$body-background-color:        {{settings.body_bg}}; //#fff;
+$body-background-second-color: {{settings.miscellaneous_bg}};
+
+$body-label-deal-color:      {{settings.heading_limited_offers_color}}; //#ffffff;
+$body-label-deal-background: {{settings.heading_limited_offers_bg}}; //#fdb3a6;
+
+$body-label-sale-color:      {{settings.saleoff_color}}; //#fdb3a6;
+$body-label-sale-background: {{settings.saleoff_bg_color}}; //#ffffff;
+
+
+$body-general-color:    {{settings.body_general_color}}; //#777777;
+$body-title-color:      {{settings.body_title_color}}; //#333333;
+$body-link-color:       {{ settings.body_link_color }}; //#fdb3a6;
+$body-border-color:     {{settings.body_border_color}}; //#eeeeee;
+
+$body-price-color:          {{settings.product_price_color}}; //#fdb3a6;
+$body-price-sale-color:     {{settings.product_sale_price_color}}; //#fdb3a6;
+$body-price-sold-out-color: {{settings.product_sold_out_price_color}}; //#b1b1b1;
+
+/* Footer */
+$footer-background-color:  {{settings.footer_bg}}; //#393e45;
+$footer-title-color:       {{ settings.footer_title_color }}; //#ffffff;
+$footer-static-text-color: {{ settings.footer_text_color }}; //#aeb4bc;
+$footer-link-color:        {{settings.footer_color}}; //#aeb4bc;
+$footer-hover-color:       {{settings.footer_color_hover}};// #fdb3a6;
+
+/* Button Default*/
+$button-btn1: 				{{settings.btn1_bg}}; //#fdb3a6;
+$button-btn1-txt:			{{settings.btn1_txt}}; //#ffffff;
+$button-btn1-border: 		{{settings.btn1_border}}; //#fdb3a6;
+$button-hover-btn1: 		{{settings.btn1_bg_hover}}; //#333333;
+$button-hover-btn1-txt:		{{settings.btn1_txt_hover}};//#ffffff;
+$button-hover-btn1-border: 	{{settings.btn1_border_hover}}; //#333333;
+
+/* Button Custom*/
+$button-btn3: 				{{settings.btn3_bg}}; //#fff;
+$button-btn3-txt:			{{settings.btn3_txt}}; //#8c8574;
+$button-btn3-border: 		{{settings.btn3_border}}; //#888888;
+$button-hover-btn3: 		{{settings.btn3_bg_hover}}; //#fdb3a6;
+$button-hover-btn3-txt:		{{settings.btn3_txt_hover}}; //#ffffff;
+$button-hover-btn3-border: 	{{settings.btn3_border_hover}}; //#fdb3a6;
+
+
+@mixin CSStransform2D($x, $y){
+  transform: scale($x, $y);
+  -moz-transform: scale($x, $y);
+  -webkit-transform: scale($x, $y);
+  -ms-transform: scale($x, $y);
+  -o-transform: scale($x, $y);
+}
+
+@mixin button1(){
+  text-align: center;      
+  padding: 10px 25px;
+  line-height: 20px;    
+  background: $button-btn1;
+  color: $button-btn1-txt;  
+  border: 1px solid $button-btn1-border;   
+  @include CSStransition(all, 0.3s, ease-in-out, 0s);  
+  &:hover{       
+    text-decoration: none;    
+    background: $button-hover-btn1;
+    color: $button-hover-btn1-txt;
+    border-color: $button-hover-btn1-border;
+  }
+}
+
+@mixin button2(){
+  text-align: center;      
+  padding: 10px 25px;
+  line-height: 20px;    
+  background: $button-btn3;
+  color: $button-btn3-txt;  
+  border: 1px solid $button-btn3-border;    
+  @include CSStransition(all, 0.3s, ease-in-out, 0s);  
+  &:hover{
+    background: $button-hover-btn3;       
+    text-decoration: none;
+    color: $button-hover-btn3-txt;
+    border-color: $button-hover-btn3-border;
+  }
+}
+
+@mixin translate($x, $y) {
+  -webkit-transform: translate($x, $y);
+      -ms-transform: translate($x, $y); // IE9+
+       -o-transform: translate($x, $y);
+          transform: translate($x, $y);
+}
+@mixin box-shadow($shadow...) {
+  -webkit-box-shadow: $shadow; // iOS <4.3 & Android <4.1
+       -ms-transform: $shadow; // IE9+
+        -o-transform: $shadow;
+          box-shadow: $shadow;
+}
+// Transitions
+@mixin transition($transition...) {
+  -webkit-transition: $transition;
+     -moz-transition: $transition;
+       -o-transition: $transition;
+          transition: $transition;
+}
+@mixin transition-delay($transition-delay) {
+  -webkit-transition-delay: $transition-delay;
+     -moz-transition-delay: $transition-delay;
+       -o-transition-delay: $transition-delay;
+          transition-delay: $transition-delay;
+}
+@mixin transition-duration($transition-duration) {
+  -webkit-transition-duration: $transition-duration;
+     -moz-transition-duration: $transition-duration;
+       -o-transition-duration: $transition-duration;
+          transition-duration: $transition-duration;
+}
+@mixin transition-transform($transition...) {
+  -webkit-transition: -webkit-transform $transition;
+     -moz-transition: -moz-transform $transition;
+       -o-transition: -o-transform $transition;
+          transition: transform $transition;
+}
+@mixin translate3d($x, $y, $z) {
+  -webkit-transform: translate3d($x, $y, $z);
+          transform: translate3d($x, $y, $z);
+      -ms-transform: translate3d($x, $y, $z);
+       -o-transform: translate3d($x, $y, $z);
+} 
+@mixin border-radius($tl, $tr, $br, $bl) {
+  border-radius: $tl $tr $br $bl;
+  -moz-border-radius: $tl $tr $br $bl;
+  -webkit-border-radius: $tl $tr $br $bl;
+}
+@mixin opacity ( $value )/*: 0.5 */ {
+  opacity: $value; 
+}
+
+@mixin CSStransition($type, $duration, $ease, $delay) {
+  -moz-transition: $type $duration $ease $delay;
+  -webkit-transition: $type $duration $ease $delay;
+  -ms-transition: $type $duration $ease $delay;
+  -o-transition: $type $duration $ease $delay;
+  transition: $type $duration $ease $delay;
+}
+@mixin skew($x, $y) {
+  -webkit-transform: skew($x, $y);
+      -ms-transform: skewX($x) skewY($y); // See https://github.com/twbs/bootstrap/issues/4885; IE9+
+       -o-transform: skew($x, $y);
+          transform: skew($x, $y);
+}
+
+@mixin spritePos($x, $y, $w, $h) {
+  background-image: url({{'icon.png' | asset_url}});
+  background-position: $x $y;
+  background-repeat: none;
+  width: $w;
+  height: $h;
+}
+
+@mixin ab($t, $l, $b, $r) {
+  position: absolute;
+  display: block;
+  @if $l != n { left: $l; }
+  @if $t != n { top: $t; }
+  @if $r != n { right: $r; }
+  @if $b != n { bottom: $b; }
+}
+
+@mixin rotateY($degree) {
+  -moz-transform:    rotateY($degree);
+  -webkit-transform: rotateY($degree);
+  -o-transform:      rotateY($degree);
+  -ms-transform:      rotateY($degree);
+  transform:         rotateY($degree);
+}
+
+@mixin rotateX($degree) {
+  -moz-transform:    rotateX($degree);
+  -webkit-transform: rotateX($degree);
+  -o-transform:      rotateX($degree);
+  -ms-transform:      rotateX($degree);
+  transform:         rotateX($degree);
+}
+
+//transform origin
+@mixin transform-origin($origin) {
+    moz-transform-origin: 	  $origin;
+	     -o-transform-origin: $origin;
+	    -ms-transform-origin: $origin;
+	-webkit-transform-origin: $origin;
+          transform-origin:   $origin;
+}
+
+@mixin before {     
+  content:'';
+  @include ab(0, 0, n, n);
+  @include opacity(0);
+  @include CSStransition(all, 0.5s, ease, 0s);
+  width:100%; 
+  height:100%;  
+  background: rgba(222, 193, 140, 0.7);
+}
+@mixin hover-before {
+  @include opacity(1);
+}
+@mixin hover-effect {
+  background-color:rgba(255,255,255,0.5);
+  content:"";
+  display:inline-block;
+  height:100%;
+  position:absolute;
+  right:150%;
+  top:0;
+  vertical-align:middle;
+  width:100%;
+  @include CSStransition(all, 0.6s, ease, 0s);                  
+  @include skew(-45deg, 0);         
+}
+@mixin border-radius-reset {
+  @include border-radius(0px, 0px, 0px, 0px);
+}
+@mixin border-radius-2px {
+  @include border-radius(2px, 2px, 2px, 2px);
+}
+@mixin border-radius-3px {
+  @include border-radius(3px, 3px, 3px, 3px);
+}
+@mixin border-radius-4px {
+  @include border-radius(4px, 4px, 4px, 4px);
+}
+@mixin border-radius-circle {
+  @include border-radius(50%, 50%, 50%, 50%);
+}
+{% comment %} -------------- variables.scss --------------------{% endcomment %}
+
+html .cart-opened{
+  overflow: hidden;
+}
+ 
+.cart-opened #page-body{
+  cursor: url({{'toggle_close.png' | asset_url}}), progress;
+  position: relative;
+  left:0px;
+}
+.cart-opened .header-content, .cart-opened .mobile-version{
+  left: 0px;
+}
+body.cart-opened #page-body:before{
+  background: rgba(0,0,0,0.5);
+  content: "" !important;
+  display: inline-block !important;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 99999;
+}
+.cart-sb{
+  background: #fff;
+  position: fixed;
+  width: 300px;
+  z-index: 100000;
+  height: 100%;
+  overflow: auto;
+  top: 0px!important;
+  right: 0px;  
+  @include translate(300px, 0);
+  @include box-shadow(0 0 0 #fff !important);
+  -moz-transition: all 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  -o-transition: all 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  -webkit-transition: all 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition: all 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  padding: 20px;
+  text-align: center;
+  .cart-content{
+    opacity: 0;
+    visibility: hidden;    
+    @include CSStransition(all, 0.2s, ease-out, 0s);        
+    .items {
+      text-align: left;      
+      padding-top: 20px;
+    }
+  }
+  .icon-cart {
+    display: inline-block;
+    font-family: $font-heading;
+    color: $body-title-color;
+    font-size:  $size-h2;
+    text-transform: capitalize;
+  }
+  &.opened{
+    @include translate(0px, 0);    
+    .cart-content{
+      opacity: 1;
+      visibility: visible;
+    }   
+  }
+}
+
+/*Search Sidebar*/
+html.search-opened{
+  overflow: hidden;
+}
+.search-opened #page-body{
+  
+  cursor: url({{'toggle_close.png' | asset_url}}), progress;
+  position: relative;
+  left: 0px;
+}
+.search-opened .header-content, .search-opened .mobile-version{
+  left: 0px;
+}
+body.search-opened #page-body:before{
+  background: rgba(0,0,0,0.5);
+  content: "" !important;
+  display: inline-block !important;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 99999;
+}
+.search-sb{
+  background: #fff;
+
+  position: fixed;
+  width: 280px;
+  z-index: 100000;
+  height: 100%;
+  overflow: auto;
+  top: 0px!important;
+  right: 0px;
+  -webkit-transform: translate(280px);
+  -moz-transform: translate(280px);
+  -ms-transform: translate(280px);
+  -o-transform: translate(280px);
+  transform: translate(280px);
+  -moz-transition: all 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  -o-transition: all 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  -webkit-transition: all 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition: all 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+
+  padding: 20px;
+
+  .search-content{
+    opacity: 0;
+    visibility: hidden;
+    -webkit-transition: all 0.2s ease-out;
+    -moz-transition: all 0.2s ease-out;
+    -o-transition: all 0.2s ease-out;
+    -ms-transition: all 0.2s ease-out;
+    transition: all 0.2s ease-out;
+  }
+
+  &.opened{
+    .search-content{
+      opacity: 1;
+      visibility: visible;
+    }
+    -webkit-transform: translate(0px);
+    -moz-transform: translate(0px);
+    -ms-transform: translate(0px);
+    -o-transform: translate(0px);
+    transform: translate(0px);
+  }
+
+}
+
+.menu-opened #page-body{  
+  cursor: url({{'toggle_close.png' | asset_url}}), progress;
+  
+}
+.menu-opened #page-body:before {
+  background: rgba(0,0,0,0.5);
+  content: "" !important;
+  display: inline-block !important;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 99999;
+}
+/* Scroll to top */
+#scroll-to-top.off {
+  /*right: -60px;*/
+}
+
+#scroll-to-top.on {
+  bottom: 10%;
+  opacity: 1;
+  right: 30px;
+  filter: alpha(opacity=100); 
+}
+#scroll-to-top {
+  @include CSStransition(all, 0.2s, ease-out, 0s); 
+  -moz-backface-visibility: hidden;
+  opacity: 0;
+  filter: alpha(opacity=0);
+  position: fixed;
+  /*right: -50px;*/
+  bottom: 10px;
+  z-index: 1000;
+  display: block;
+  cursor: pointer;
+  text-align: center;
+}
+
+/* Sidebar mobile--------------------------------*/
+html .filter-opened {
+  overflow: hidden;
+}
+
+.filter-opened #page-body:before {
+  background: rgba(0,0,0,0.5);
+  content: "" !important;
+  display: inline-block !important;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 99999;
+}
+

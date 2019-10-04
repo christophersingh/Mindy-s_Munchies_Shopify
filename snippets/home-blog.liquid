@@ -1,0 +1,42 @@
+{% if settings.home_blog_select and blogs[settings.home_blog_select].articles.size > 0 %}
+
+{% assign title = settings.home_blog_title %}
+{% assign latestBlog = blogs[settings.home_blog_select].articles %}
+{% assign count = blogs[settings.home_blog_select].articles_count | plus: 0 %}
+{% assign limit = settings.home_blog_limit | plus: 0 %}
+
+<div class="blog-container">
+
+  {% if title != blank %}
+  <div class="title-wrapper"><h3>{{ title }}</h3></div>
+  {% endif %}
+
+  <div class="post-list{% if count > 3 %} post-list-slider{% endif %}">
+    {% for article in latestBlog limit: limit %}
+
+    <article class="post-item">
+      <div class="post-image">
+        {% if article.image %}
+        {% assign image_alt = article.title | escape %}
+        <div class="post-img">
+          {{ article | img_url: '1024x1024' | img_tag: image_alt | link_to: article.url }}
+        </div>
+        {% endif %}
+      </div>
+
+      <div class="post-content">
+        <h3><a class="post-title" href="{{article.url}}">{{ article.title }}</a></h3>
+        <div class="meta-data">
+          <span class="date">{{ article.created_at | date: "%b %d, %Y" }}</span>
+          <span class="author">{{ article.author }}</span>
+        </div>
+        <p>{{ article.content | strip_html | truncatewords: 20 }}</p>
+      </div>
+    </article>
+
+    {% endfor %}
+  </div>
+
+</div>
+
+{% endif %}

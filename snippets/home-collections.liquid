@@ -1,0 +1,17 @@
+<div class="home-collections">
+  <div class="row">
+    
+    {% for i in (1..4) %}
+    {% assign col_index = 'home_collections_' | append: i %}
+    {% assign collection = collections[settings[col_index]] %}
+
+    {% if collection != blank %}
+    <div class="col-md-3 col-sm-6 col-xs-6">
+      {% include 'collection-item' %}
+    </div>
+    {% endif %}
+
+    {% endfor %}
+    
+  </div>
+</div>

@@ -1,0 +1,19 @@
+<div id="col-main">
+
+  <div class="category-content">
+    <div class="category-grid-view">
+      <div class="row" style="color:#ed2790;">
+
+        {% for collection in collections %}
+        {% unless collection.handle == 'frontpage' or collection.handle == 'all' %}
+        <div class="col-md-3 col-sm-4 col-xs-6">
+          {% include 'collection-item' %}
+        </div>
+        {% endunless %}
+        {% endfor %}
+
+      </div>
+    </div>
+  </div>
+
+</div>

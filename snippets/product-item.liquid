@@ -1,0 +1,116 @@
+<div class="product-wrapper">
+
+  <div class="product-head">
+
+    <div class="product-image">
+
+      {% capture number_of_images %}{{ product.images | size }}{% endcapture %}
+      {% assign number_images = number_of_images | plus:0 %}
+
+      <div class="featured-img{% if number_images > 1 %} switch{% endif %}">
+        <a href="{{ product.url | within: collection }}"> 
+
+          <img class="featured-image front" src="{% if product.images.size >= 1%}{{ product.featured_image | product_img_url: 'large' }}{% else %}{{ 'default-image.jpg' | asset_url }}{% endif %}" alt="{{ product.title | escape }}" />
+          {% if number_images > 1 %}
+          <span class="hidden-sm hidden-xs">
+            <img src="{{ product.images[1]| product_img_url: 'large' }}" class="back" alt="{{ product.title | escape }}" />    
+          </span>
+          {% endif %}
+          {% include 'label' %}
+
+        </a>
+      </div>
+
+      <div class="product-button">
+        {% assign wishlist_link = "javascript:;" %}
+        {% if shop.customer_accounts_optional and settings.wishlist_page %}
+        {% assign wishlist_link = pages["wishlist-page"].url %}
+        {% include 'wishlist-product-item' %}
+        {% endif %}
+
+        {% if settings.use_quick_view %}
+        <div data-handle="{{product.handle}}" data-target="#quick-shop-popup" class="quick_shop quick-shop-button hidden-sm hidden-xs" data-toggle="modal" title="Quick View">
+          <span class="quick-view-icon"></span>
+          <span class="json hide">{{ product | json }}</span>
+        </div>
+        {% endif %}
+        
+        <div class="add-cart-button">       
+          {% if product.variants.size > 1 %}
+          <a href="{{ product.url | within: collection }}" class="btn-custom select-options" title="{{ 'products.product.select_options' | t }}"><i class="fa fa-shopping-cart"></i></a>
+
+          {% else %}
+          {% if product.available %}
+          <form action="/cart/add" method="post" enctype="multipart/form-data">
+            <a href="{{ product.url | within: collection }}" class="btn-custom add-to-cart" title="{{ 'products.product.add_to_cart' | t }}"><i class="fa fa-shopping-cart"></i></a>
+            <select class="hide" name="id">
+              {% for variant in product.variants %}
+              <option value="{{ variant.id }}">{{ variant.title | escape }}</option>
+              {% endfor %}
+            </select>
+          </form>
+
+          {% else %}
+          <a href="{{ product.url | within: collection }}" class="btn-custom add-to-cart disabled" title="{{ 'products.product.add_to_cart' | t }}"><i class="fa fa-shopping-cart"></i></a>
+
+          {% endif %}
+
+          {% endif %}
+        </div>
+        
+      </div>
+
+    </div>
+
+    {% comment %} -- Deal -- {% endcomment %}
+
+    {% if product.available and settings.use_limited_offers %}
+    {% include 'deals' %}
+    {% endif %}
+
+  </div>
+
+  <div class="product-content">
+    <div class="pc-inner">
+      
+      <div class="product-review">
+        <span class="shopify-product-reviews-badge" data-id="{{ product.id }}"></span>
+      </div>
+
+      <h5 class="product-name">
+        <a href="{{ product.url | within: collection }}">{{ product.title | strip_html | truncate: 25 }}</a>
+      </h5>
+      
+      <div class="product-description only-list">
+        {{ product.content | strip_html | truncatewords: 30 }}
+      </div>     
+
+      <div class="product-price">
+        {% if product.available %}
+
+        {% if product.compare_at_price_max > product.price %}
+        <span class="price-compare"> {{ product.compare_at_price | money }}</span>
+        <span class="price-sale">{{ product.price | money }}</span>
+
+        {% else %}
+        <span class="price">
+          {% if product.price_varies %} 
+          {{ product.price | money }}
+          {% else %}
+          {{ product.price | money }}
+          {% endif %}
+        </span>
+
+        {% endif %}  
+
+        {% else %}
+        <span class="sold-out">{{'products.product.sold_out' | t }}</span>
+
+        {% endif %}
+      </div>
+      
+    </div>
+  </div>
+
+</div>
+

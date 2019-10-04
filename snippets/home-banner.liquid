@@ -1,0 +1,22 @@
+<div id="home-banner">
+  <div class="figure home-banner">
+
+    <div class="overlay">
+      <div class="bg-img" style="height:269px; background-image: url({{ 'home_banner.jpg' | asset_url }});"></div>
+    </div>
+
+    <div class="overlay-banner">
+      <div class="banner-content">
+
+        {% if settings.home_banner_title != blank %}
+        <h2><a href="{{ settings.home_banner_link }}">{{ settings.home_banner_title }}</a></h2>
+        {% endif %}
+
+        {% if settings.home_banner_caption != blank %}
+        <p>{{ settings.home_banner_caption }}</p>
+        {% endif %}
+      </div>
+    </div>
+
+  </div>
+</div>

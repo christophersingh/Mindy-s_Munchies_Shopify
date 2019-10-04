@@ -1,0 +1,79 @@
+<div role="tabpanel" id="home-tabs" class="clearfix">
+
+  {% assign title = settings.home_tab_title %}
+  {% assign limit = settings.home_tab_number_item %}
+
+  <!-- Nav tabs -->
+
+  <div class="nav-tab-wrapper">
+    {% if title != blank %}
+    <div class="title-wrapper"><h3>{{ title }}</h3></div>
+    {% endif %}
+
+    <ul class="nav nav-tabs tab-heading" role="tablist">
+      {% assign j = 0 %}
+      {% for i in (1..3) %}
+      {% assign show = 'enable_home_tab_' | append: i %}
+
+      {% if settings[show] %}
+      {% assign coltabTitle = 'home_tab_title_' | append: i %}
+      {% assign colNumber = 'home_tab_col_' | append: i %}
+
+      {% if settings[colNumber] != blank %}
+      {% assign tabCol = collections[settings[colNumber]] %}
+      {% assign j = j | plus: 1 %}
+
+      <li role="presentation" class="{% if j == 1 %}active {% endif %}tab-title">
+        <a href="#home-tab-{{i}}" aria-controls="home-tab-{{i}}" role="tab" data-toggle="tab">
+
+          {% if settings[coltabTitle] != '' %}
+          {{ settings[coltabTitle] }}
+          {% else %}
+          {{ tabCol.title }}
+          {% endif %}
+
+        </a>
+      </li>
+
+      {% endif %}
+
+      {% endif %}
+
+      {% endfor %}
+    </ul>
+  </div>
+
+  <!-- Tab panel -->
+  <div class="tab-content">
+
+    {% assign k = 0 %}
+    {% for i in (1..3) %}
+    {% assign show = 'enable_home_tab_' | append: i %}
+
+    {% if settings[show] %}
+    {% assign coltabTitle = 'home_tab_title_' | append: i %}
+    {% assign colNumber = 'home_tab_col_' | append: i %}
+
+    {% if settings[colNumber] != blank %}
+    {% assign tabCol = collections[settings[colNumber]] %}
+    {% assign k = k | plus: 1 %}
+
+    <div role="tabpanel" class="{% if k == 1 %}active {% endif %}tab-pane" id="home-tab-{{i}}">
+      <div class="home-tab">
+        {% for product in tabCol.products limit:limit %}
+        <div class="col-sm-4 col-md-4 col-xs-12 product-grid-item">
+          {% include 'product-item' %}
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    {% endif %}
+
+    {% endif %}
+
+    {% endfor %}
+
+  </div>
+
+</div>

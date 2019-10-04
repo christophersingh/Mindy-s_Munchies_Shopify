@@ -1,0 +1,365 @@
+<div itemscope itemtype="http://schema.org/Product">
+  <meta itemprop="url" content="{{ shop.url }}{{ product.url }}" />
+  <meta itemprop="image" content="{{ product.featured_image.src | product_img_url: 'grande' }}">
+  <span itemprop="name" class="hide">{{ product.title }}</span>
+
+  <div class="row">
+    
+    <!-- Begin #col-main -->
+
+    <div class="col-md-12 col-sm-12 col-xs-12">
+      <div id="col-main" class="page-product product-single">
+
+        <div class="product">
+          <div class="row">
+
+            <!-- Begin #product-image -->
+
+            <div id="product-image" class="col-sm-12 col-md-5 product-image">
+              <div class="product-image-inner row">
+                {% if product.images.size > 0 %} 
+
+                  {% assign featured_image = product.selected_or_first_available_variant.featured_image | default: product.featured_image %}
+                  <a href="{{ featured_image | product_img_url: 'original' }}" class="featured-image elevatezoom">
+                    <img id="product-featured-image" class="magniflier zoom-image" src="{{ featured_image | product_img_url: '1024x1024' }}" data-zoom-image="{{ featured_image | product_img_url: 'original' }}" alt="{{ product.title | escape }}" />
+                  </a>
+
+                  <div class="more-view-image">
+                    <div id="gallery-image" class="gallery-image-thumb">
+                      {% for image in product.images %}
+                        <a class="thumb-img{% if forloop.index == 1 %} active{% endif %}" data-image="{{ image | product_img_url: '1024x1024' }}" data-zoom-image="{{ image | product_img_url: 'original' }}">
+                          <img src="{{ image.src | product_img_url: 'compact' }}" alt="{{ product.title | escape }}">
+                        </a>
+                      {% endfor %}
+                    </div>
+                  </div>
+
+                {% else %}
+
+                  <img src="{{ 'default-image.jpg' | asset_url }}" />
+
+                {% endif %}
+
+              </div>
+            </div>
+
+            <!-- End #product-image /- -->
+
+
+            <!-- Begin #product-info -->
+
+            <div id="product-info" class="col-sm-12 col-md-7 product-info">
+
+              <div itemprop="offers" itemscope itemtype="http://schema.org/Offer">
+
+                <h1 itemprop="name" content="{{ product.title }}" class="page-heading">{{ product.title }}</h1>
+                <meta itemprop="priceCurrency" content="{{ shop.currency }}" />
+
+                <div class="rating-links">
+                  <div class="shopify-product-reviews-badge" data-id="{{ product.id }}"></div>
+                </div>
+                
+                <div class="price-wrapper">
+                  {% unless product.price_min == product.price_max %}
+                  <div class="price-min-max">{{ product.price_min | money }}-{{ product.price_max | money }}</div>
+                  {% else %}
+                  <div id="purchase-{{ product.id }}" class="product-price">
+                    <div class="detail-price" itemprop="price">
+                      {{ product.price | money }}
+                    </div>
+                  </div>
+                  {% endunless %}
+                </div>
+                
+
+                {% if product.available %}
+                <link itemprop="availability" href="http://schema.org/InStock" />
+                {% else %}
+                <link itemprop="availability" href="http://schema.org/OutOfStock" />
+                {% endif %}
+
+                <div class="detail-deal">{% include 'product-detail-deals' %}</div>
+
+                <div class="short-description">
+                  {{ product.content | strip_html | truncatewords: 20 }}
+                </div>
+                
+
+                {% if product.available %}
+
+                  {% assign hide_default_title = false %}
+                  {% if product.variants.size == 1 and product.variants.first.title contains 'Default' %}
+                    {% assign hide_default_title = true %}
+                  {% endif %}
+
+                  <div class="group-cw">
+                    <form action="/cart/add" method="post" class="product-action variants" enctype="multipart/form-data">
+                      <div id="product-action-{{ product.id }}"  class="options">
+
+                        <div class="variants-wrapper clearfix"> 
+                          <select id="product-select-{{ product.id }}" name="id" style="display:none;">
+                            {% for variant in product.variants %}
+
+                              {% if variant.available %}
+                                <option {% if variant == product.selected_or_first_available_variant %} selected="selected" {% endif %} value="{{ variant.id }}">{{ variant.title }}</option>
+
+                              {% else %}
+                                <option disabled="disabled">
+                                  {{ variant.title }} - {{'products.product.sold_out' | t }}
+                                </option>
+
+                              {% endif %}
+
+                            {% endfor %}
+                          </select>
+                        </div>
+
+                        {% if settings.show_swatches_sizer %}
+                          {% if product.available and product.variants.size > 1 %}
+                          {% include 'swatch' with 'Size' %}
+                          {% endif %}
+                        {% endif %}
+
+                        {% if settings.show_swatches_color %}
+                          {% if product.available and product.variants.size > 1 %}
+                          {% include 'swatch' with 'Color' %}
+                          {% endif %}
+                        {% endif %}
+                        
+                        {% unless product.price_min == product.price_max %}
+                        <div id="purchase-{{ product.id }}" class="product-price">
+                          <div class="detail-price" itemprop="price">
+                            {{ product.price | money }}
+                          </div>
+                        </div>
+                        {% endunless %}
+
+                        <div class="qty-add-cart">
+                          <div class="quantity-product">
+                            <div class="quantity">
+                              <input type="number" id="quantity" class="item-quantity" name="quantity" value="1" />
+                              <span class="qty-wrapper">
+                                <span class="qty-inner">
+
+                                  <span class="qty-up" title="Increase" data-src="#quantity">
+                                    <i class="fa fa-plus"></i>
+                                  </span>
+
+                                  <span class="qty-down" title="Decrease" data-src="#quantity">
+                                    <i class="fa fa-minus"></i>
+                                  </span>
+
+                                </span>
+                              </span>
+                            </div>
+                          </div>
+
+                          <div class="action-button">
+                            <button id="add-to-cart" class="add-to-cart btn btn-default" type="button">{{ 'products.product.add_to_cart' | t }}</button>
+                          </div>
+                        </div>
+
+                      </div>
+                    </form>
+                  </div>
+
+                {% else %}
+                  <meta itemprop="price" content="{{ product.price | money }}" />
+
+                  <div class="action-button">
+                    <button id="add-to-cart" class="add-to-cart btn btn-default disabled" type="button">{{ 'products.product.add_to_cart' | t }}</button>
+                  </div>
+
+                {% endif %}
+                
+                {% assign wishlist_link = "javascript:;" %}
+                {% if shop.customer_accounts_optional and settings.wishlist_page %}
+                {% assign wishlist_link = pages["wishlist-page"].url %} 
+                {% include 'wishlist-product' %}
+                {% endif %}
+
+                <div class="product-availability-wrapper">
+                  <ul class="list-unstyled">
+
+                    {% if settings.enable_product_sku %}
+                    <li class="product-sku" style="display:none;">
+                      <span>{{ 'products.product.sku' | t }}:</span>
+                      <span id="sku"></span>
+                    </li>
+                    {% endif %}
+                    
+                    {% if settings.enable_product_availability %}
+                    <li class="product-stock">
+                      <span>Availability:</span>
+                      <span id="stock"></span>
+                    </li>
+                    {% endif %}
+
+                    {% if settings.enable_product_categories %}
+                    <li>
+                      <span>Categories:</span>
+                      {% for product_collection in product.collections %}
+                      {{ product_collection.title }}{% unless forloop.last %},{% endunless%}
+                      {% endfor %}
+                    </li>
+                    {% endif %}
+
+                    {% if settings.enable_product_type %}
+                    <li>
+                      <span>Type:</span>
+                      {{ product.type }}
+                    </li>
+                    {% endif %}
+                    
+                  </ul>
+                </div>
+
+                {% if settings.show_social_sharing_product %}
+                  {% include 'social-sharing' %}
+                {% endif %}
+
+                <!-- endif product.avaiable /- -->
+
+              </div>
+
+            </div>
+
+            <!-- End #product-info /- -->
+
+          </div>
+        </div>
+
+        <!-- End .product /- -->
+
+        {% include 'product-tabs' %}
+
+        {% if settings.enable_related_product %}
+        {% include 'related-product' %}
+        {% endif %}
+
+      </div>
+    </div>
+    
+    <!-- End #col-main /- -->
+    
+  </div>
+  
+</div>
+
+{% include 'notify-product-slider' %}
+
+<script type="text/javascript">
+
+	// initialize multi selector for product
+	$(window).load(function() {
+      
+        $(".qty-inner .qty-up").on("click", function() {
+			var oldValue = $("#quantity").val(),
+				newVal = 1;
+				newVal = parseInt(oldValue) + 1;
+				$("#quantity").val(newVal);
+		});
+		$(".qty-inner .qty-down").on("click", function() {
+			var oldValue = $("#quantity").val();
+			if (oldValue > 1) {
+				newVal = 1;
+				newVal = parseInt(oldValue) - 1;
+				$("#quantity").val(newVal);
+			}
+		});
+
+		/* selectCallback */
+		var selectOptionsCallback = function(variant, selector) {
+
+			if (variant) {
+				var form = jQuery('#' + selector.domIdPrefix).closest('form');
+				for (var i=0,length=variant.options.length; i<length; i++) {
+					var radioButton = form.find('.swatch[data-option-index="' + i + '"] :radio[value="' + variant.options[i] +'"]');
+					if (radioButton.size()) {
+						radioButton.get(0).checked = true;
+					}
+				}
+			}
+
+			var add_to_cart = '#add-to-cart';
+			var $price = '#purchase-' + selector.product.id.toString() + ' .detail-price';
+			if (variant && variant.available) {
+
+				// Update variant image
+				if (variant.featured_image) { 
+				  var originalImage = jQuery("#product-featured-image");
+				  var newImage = variant.featured_image;
+				  var element = originalImage[0];
+				  Shopify.Image.switchImage(newImage, element, function (newImageSizedSrc, newImage, element) {
+					jQuery('#gallery-image img').each(function() {
+					  var grandSize = jQuery(this).attr('src');
+					  grandSize = grandSize.replace('compact','1024x1024');
+					  if (grandSize == newImageSizedSrc) {
+						jQuery(this).parent().trigger('click');              
+						return false;
+					  }
+					});
+				  });   
+				}
+
+				// selected a valid variant
+				$(add_to_cart).removeClass('disabled').removeAttr('disabled').html('Add To Cart'); // remove unavailable class from add-to-cart button, and re-enable button
+
+				if(variant.compare_at_price == null){
+					$($price).html('<span class="price">'+Shopify.formatMoney(variant.price, "{{shop.money_format}}")+'</span>');
+
+					{% if settings.show_multiple_currencies %}
+					/* Update currency */
+						currenciesCallbackSpecial('#product-info span.money');
+					{% endif %}
+				  
+				}
+			  
+				else {
+					$($price).html('<del class="price-compare">' + Shopify.formatMoney(variant.compare_at_price, "{{shop.money_format}}") + '</del>' + '<span class="price-sale">'+Shopify.formatMoney(variant.price, "{{shop.money_format}}") + '</span>');
+
+					{% if settings.show_multiple_currencies %}
+					/* Update currency */
+						currenciesCallbackSpecial('#product-info span.money');
+					{% endif %}
+					
+				}
+			} 
+			else {
+				$(add_to_cart).addClass('disabled').attr('disabled', 'disabled'); // set add-to-cart button to unavailable class and disable button
+				var message = variant ? "{{'products.product.sold_out' | t }}" : "{{'products.product.unavailable' | t }}";
+				$(add_to_cart).html(message);
+				$($price).html('<span class="unavailable">' + message + '</span>');
+			}
+
+			if (variant && variant.available) {
+				jQuery("#stock").html('In stock'); 
+			}
+			else{
+				jQuery("#stock").html('Out stock');
+			}
+                
+			{% if settings.enable_product_sku %}
+				if (variant && variant.sku) { 
+					jQuery("#sku").html(variant.sku).parent().show(); 
+				}
+				else{
+					jQuery("#sku").parent().hide(); 
+				}
+			{% endif %}
+		};
+
+		new Shopify.OptionSelectors("product-select-{{ product.id }}", { product: {{ product | json | remove:'\u003E' | remove:'\u003C' | remove:'\u00a0' }}, onVariantSelected: selectOptionsCallback, enableHistoryState: true });
+              
+		// Add label if only one product option
+		{% if product.options.size == 1 and product.options.first != 'Title' %}
+			$('.selector-wrapper:eq(0)').prepend('<label>{{ product.options.first | escape }}</label>');
+		{% endif %}
+												 
+		// Hide selectors if we only have 1 variant and its title contains 'Default'.
+		{% if product.variants.size == 1 and product.variants.first.title contains 'Default' %}
+			$('.selector-wrapper').hide();
+		{% endif %}
+
+	});
+</script>

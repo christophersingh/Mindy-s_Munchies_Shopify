@@ -1,0 +1,129 @@
+
+<div id="sidebar" class="col-md-3 left-column-container sidebar hidden-sm hidden-xs">
+  
+  <!-- Begin Price Range -->
+	<br>
+	<br>
+	<br>
+  {% if settings.show_sb_price_range %}
+  <div class="price-range-slider">
+    <div class="sb-widget">
+
+      {% if settings.heading_sb_price_range != blank %}
+      <h4 class="sb-title">{{ settings.heading_sb_price_range }}</h4>
+      {% endif %}
+
+      <div class="price-range" style="color:#ed2790;">
+        <p style="color:#ed2790;">
+          <label>Range:</label>
+          <span id="amount" style="font-weight: bold;color:#ed2790;"">$10 - $200</span>
+        </p>
+
+        <div id="range-slider" class="ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all">
+          <div class="ui-slider-range ui-widget-header ui-corner-all" style="width: 100%; left: 0%;"></div>
+          <div class="range-left"><span class="ui-slider-handle ui-state-default ui-corner-all" tabindex="0" style="left: 0%;"></span></div>
+          <div class="range-right"><span class="ui-slider-handle ui-state-default ui-corner-all" tabindex="0" style="left: 100%;"></span></div>
+        </div>
+        <div id="slider"></div>
+      </div>
+
+    </div>
+  </div>
+  {% endif %}
+
+  <!-- End Price Range -->
+  
+  
+  <!-- Begin Product Search -->
+
+  {% if settings.enable_product_search %}
+  <div class="sb-search">
+    <div class="sb-widget">
+
+      {% if settings.product_search_title != blank %}
+      <h4 class="sb-title" style="color:#fdb3a6;">{{ settings.product_search_title }}</h4>
+      {% endif %}
+
+      <div class="search-blog" style="color:#ed2790;" >
+        <form action="/search" method="get">
+
+          <input type="hidden" name="type" value="product" >
+          <input type="text" name="q" class="form-control" style="color:#fdb3a6;" placeholder="Search..." autocomplete="off">
+          <button type="submit" class="btn btn-default">Search</button>
+
+        </form>
+      </div>
+
+    </div>
+  </div>
+  {% endif %}
+
+  <!-- End Product Search -->
+  
+
+  <!-- Begin Categories -->
+  
+  {% if settings.sb_categories %}
+  <div class="sb-categories">
+    <div class="sb-widget">
+
+      {% if settings.sb_categories_heading != blank %}
+      <h4 class="sb-title" style="color:#ed2790;">{{ settings.sb_categories_heading }}</h4>
+      {% endif %}
+
+      <ul>
+        {% for collection in collections limit: settings.sb_categories_limit %} 
+        {% unless collection.handle == 'frontpage' or collection.handle == 'all' %}
+        <li>
+          <a href="{{ collection.url }}" style="color:#ed2790;">{{ collection.title }}</a>
+        </li>
+        {% endunless %}
+        {% endfor %}
+      </ul>
+
+    </div>
+  </div>
+  {% endif %}
+
+  <!-- End Categories -->
+  
+  
+  <!-- Begin Filter -->
+  
+  {% include 'cata-filter' %}
+  
+  <!-- End Filter -->
+
+  
+  <!-- Begin Special Products -->
+
+  {% if settings.show_sb_special_product and settings.sb_special_product_col != blank %}
+  <div class="sb-special-products hidden-xs hidden-sm">
+    <div class="sb-widget">
+
+      {% assign title = settings.sb_special_product_title %}
+      {% assign col = collections[settings.sb_special_product_col] %}
+      {% assign limit = settings.sb_special_product_limit | plus: 0 %}
+      {% assign total = col.products.size %}
+
+      {% if total > 0 %}
+
+      {% if total > limit %}{% assign total = limit %}{% endif %}
+
+      {% if title != blank %}<h4 class="sb-title">{{ title }}</h4>{% endif %}
+
+      <div class="special-list">
+        {% for product in col.products limit: total %}
+        {% include 'sb-product-item' %}
+        {% endfor %}
+      </div>
+
+      {% endif %}
+
+    </div>
+  </div>
+  {% endif %}
+
+  <!-- End Special Products -->
+
+</div>

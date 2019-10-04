@@ -1,0 +1,32 @@
+<div class="home-service">
+  <div class="row">
+
+    {% for i in (1..3) %}
+    {% assign show = 'enable_home_service_block_' | append: i %}
+
+    {% if settings[show] %}
+    {% assign title = 'home_service_block_title_' | append: i %}
+    {% assign caption = 'home_service_block_caption_' | append: i %}
+    {% assign button = 'home_service_block_button_' | append: i %}
+    {% assign link = 'home_service_block_link_' | append: i %}
+
+    <div class="col-md-4 col-sm-12">
+      <div class="service-wrapper">
+        <div class="service-content">
+
+          {% if settings[title] != blank %}
+          <h4>{{ settings[title] }}</h4>
+          {% endif %}
+          
+          <p>{% if settings[caption] != blank %}{{ settings[caption] }}{% endif %}{% if settings[button] != blank %}<a href="{{ settings[link] }}">{{ settings[button] }}</a>{% endif %}</p>
+          
+        </div>
+      </div>
+    </div>
+
+    {% endif %}
+
+    {% endfor %}
+
+  </div>
+</div>

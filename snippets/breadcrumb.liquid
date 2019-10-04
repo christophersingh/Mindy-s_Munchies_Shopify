@@ -1,0 +1,58 @@
+<div id="breadcrumb" class="breadcrumb-holder">
+  <ul class="breadcrumb">
+
+    <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+      <a itemprop="url" href="/">
+        <span itemprop="title" class="hide">{{ shop.name | escape }}</span>Home
+      </a>
+    </li>
+
+    {% if template contains 'product' %}
+
+      {% if collection %}
+        {% if collection.handle %}
+        <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb" class="hide">
+          <a href="{{collection.url}}" itemprop="url">
+            <span itemprop="title">{{ collection.title }}</span>
+          </a>
+        </li>
+        <li>{{ collection.title | link_to: collection.url }}</li>
+        {% endif %}
+      {% endif %}
+
+      <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb" class="hide">
+        <a href="{{product.url}}" itemprop="url">
+          <span itemprop="title">{{ product.title }}</span>
+        </a>
+      </li>
+      <li class="active">{{ product.title }}</li>
+
+    {% elsif template contains 'collection' %}
+
+      {% if current_tags %}
+        <li>{{ collection.title | link_to: collection.url }}</li>
+        <li class="active">{{ current_tags.first }}</li>
+      {% elsif collection.handle %}
+        <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb" class="hide">
+          <a href="{{collection.url}}" itemprop="url">
+            <span itemprop="title">{{ collection.title }}</span>
+          </a>
+        </li>
+        <li class="active">{{ collection.title }}</li>
+      {% else %}
+        <li class="active">{{ page_title }}</li>
+      {% endif %}
+
+    {% elsif template == 'article' %}
+
+      <li>{{ blog.title | link_to: blog.url }}</li>
+      <li class="active">{{ article.title }}</li>
+
+    {% else %}
+
+      <li class="active">{{ page_title }}</li>
+
+    {% endif %}
+
+  </ul>
+</div>

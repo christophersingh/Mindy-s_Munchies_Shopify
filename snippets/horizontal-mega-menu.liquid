@@ -1,0 +1,120 @@
+{% assign number_col = 'mega_menu_column_' | append: number %}
+{% assign number_col = settings[number_col] %}
+
+{% assign min_height = 'mega_menu_min_height_' | append: number %}
+{% assign min_height = settings[min_height] %}
+
+{% assign menu_bg = 'mega_menu_bg_' | append: number %}
+{% assign menu_bg = settings[menu_bg] %}
+{% assign menu_bg_img = 'mega_menu_bg_img_' | append: number %}
+{% assign menu_bg_color = 'mega_menu_bg_color_' | append: number %}
+{% assign menu_bg_color = settings[menu_bg_color] %}
+
+{% assign menu_bg_position = 'mega_menu_bg_position_' | append: number %}
+{% assign menu_bg_position = settings[menu_bg_position] %}
+
+
+<div class="dropdown-menu dropdown-menu-{{number}} column-{{ number_col }}" style="min-height: {{min_height}}; {% if menu_bg == 'bg_image' %}background:url({{menu_bg_img | append: '.jpg' | asset_url}}) no-repeat top {{ menu_bg_position }} #fff;{% else %}background: {{ menu_bg_color }}{% endif %};">
+    <div class="row">
+
+      {% for i in (1..4) %}
+
+        {% assign mCol = 'mega_menu_' | append: number | append: '_col_' | append: i %}
+
+        {% if settings[mCol] != 'none' %}
+
+          {% assign mColWidth = 'mega_menu_' | append: number | append: '_width_col_' | append: i %}
+          {% assign mColTitle = 'mega_menu_' | append: number | append: '_title_col_' | append: i %}
+
+          <div class="mega-col mega-col-{{i}} col-sm-{{ settings[mColWidth] }}">
+
+            {% case settings[mCol] %}
+
+            {% when 'linlist' %}
+              {% assign mColLL = 'mega_menu_' | append: number | append: '_ll_col_' | append: i %}
+
+              {% for ml in linklists[settings[mColLL]].links %}
+
+                {% assign submenu = ml.title | handleize %}
+                {% if linklists[submenu].links.size > 0 %}
+                <div class="dropdown mega-sub-link">
+                  <a href="{{ ml.url }}" class="dropdown-link">
+                    <span>{{ ml.title }}</span>
+                  </a>
+                  {% if nav-link == 0 %}
+                  <span class="expand">
+                    <i class="fa fa-plus visible-xs"></i>
+                  </span>
+                  {% endif %}
+                  <ul class="dropdown-menu dropdown-menu-sub">
+                    {% for l in linklists[submenu].links %}
+                    <li><a href="{{ l.url }}">{{ l.title }}</a></li>
+                    {% endfor %}
+                  </ul>
+                </div>
+                {% else %}
+                <div class="mega-sub-link"><a tabindex="-4" href="{{ ml.url }}"><span>{{ ml.title }}</span></a></div>
+                {% endif %}
+
+              {% endfor %}
+
+            {% when 'product' %}
+              <div class="dropdown mega-sub-link">
+                <a href="#">
+                  <span>{{ settings[mColTitle] }}</span>
+                </a>
+                {% if nav-link == 0 %}
+                <span class="expand">
+                  <i class="fa fa-plus visible-xs visible-sm"></i>
+                </span>
+                {% endif %}
+                <ul class="dropdown-menu dropdown-menu-sub fix">
+                  {% for mIndex in (1..2) %}
+
+                    {% assign mHandle = 'mega_menu_' | append: number | append: '_product_' | append : mIndex | append : '_col_' | append : i %}
+                    {% assign mHandle = settings[mHandle] %}
+
+                    {% unless mHandle == blank %}
+                      {% assign product = all_products[mHandle] %}
+                      <li class="bp-item">
+                        {% include 'sb-product-item' %}
+                      </li>
+                    {% endunless %}
+
+                  {% endfor %}
+                </ul>
+              </div>
+
+            {% when 'image' %}
+              {% assign mColImage = 'mega_menu_' | append: number | append: '_image_col_' | append: i %}
+              {% assign mColImageLink = 'mega_menu_' | append: number | append: '_image_link_col_' | append: i %}
+              {% assign mEnableColTitle = 'mega_menu_' | append: number | append: '_image_title_col_' | append: i %}
+
+              <div class="dropdown mega-sub-link banners">
+                <a href="#"{% if settings[mEnableColTitle] %} class="visible-xs"{% endif %}>
+                  <span>{{ settings[mColTitle] }}</span>
+                </a>
+                {% if nav-link == 0 %}
+                <span class="expand">
+                  <i class="fa fa-plus visible-xs visible-sm"></i>
+                </span>
+                {% endif %}
+                <ul class="dropdown-menu dropdown-menu-sub">
+                  <li>
+                    <a href="{{ settings[mColImageLink] }}">
+                      <img src = "{{ mColImage | append: '.jpg' | asset_url }}" alt="" />
+                    </a>
+                  </li>
+                </ul>
+              </div>
+
+            {% endcase %}
+
+          </div>
+
+        {% endif %}
+
+      {% endfor %}
+
+    </div>
+</div>

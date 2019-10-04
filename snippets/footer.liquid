@@ -1,0 +1,127 @@
+<!-- Begin Footer Top -->
+
+<div class="footer-top-bar">
+  <div class="footer-top-bar-inner">
+
+    {% if settings.enable_partners %}
+    {% include 'partner' %}
+    {% endif %}
+    
+    {% unless template == 'page.contact' %}
+    {% if settings.enable_footer_map or settings.enable_footer_scroll_up %}
+    {% include 'footer-map' %}
+    {% endif %}
+    {% endunless %}
+
+  </div>
+</div>
+
+<!-- End Footer Top -->
+
+
+<!-- Begin Footer Widgets -->
+
+<div class="footer-widgets">
+  <div class="container">
+    <div class="row">
+
+      {% comment %} About Us {% endcomment %}
+
+      {% if settings.enable_footer_about_us %}
+      <div class="col-md-3 col-sm-6 col-xs-12">
+        <div class="footer-block">
+
+          <a href="/"><img class="logo" src="{{ 'logo.png' | asset_url }}" alt="{{ shop.name | escape }}" /></a>
+          {% if settings.footer_ab_content != blank %}
+          <div class="sub-description">{{ settings.footer_ab_content }}</div>
+          {% endif %}
+
+        </div>
+      </div>
+      {% endif %}
+
+      {% comment %} Information {% endcomment %}
+
+      {% if settings.enable_footer_infor and settings.footer_infor_linklist != '' %}
+      <div class="col-xs-12 col-sm-6 col-md-3">
+        <div class="footer-block">
+
+          {% if settings.footer_infor_title != blank %}
+          <h4>{{ settings.footer_infor_title }}</h4>
+          {% endif %}
+
+          {% assign list = linklists[settings.footer_infor_linklist] %}
+
+          <ul class="list-links list-unstyled">
+            {% for link in list.links %}
+            <li>
+              <a href="{{ link.url }}">{{ link.title | escape }}</a>
+            </li>
+            {% endfor %}
+          </ul>
+
+        </div>
+      </div>
+      {% endif %}
+
+      {% comment %} Extras {% endcomment %}
+
+      {% if settings.enable_footer_extras and settings.footer_extras_linklist != '' %}
+      <div class="col-xs-12 col-sm-6 col-md-3">
+        <div class="footer-block">
+
+          {% if settings.footer_extras_title != blank %}
+          <h4>{{ settings.footer_extras_title }}</h4>
+          {% endif %}
+
+          {% assign list = linklists[settings.footer_extras_linklist] %}
+
+          <ul class="list-links list-unstyled">
+            {% for link in list.links %}
+            <li>
+              <a href="{{ link.url }}">{{ link.title | escape }}</a>
+            </li>
+            {% endfor %}
+          </ul>
+
+        </div>
+      </div>
+      {% endif %}
+
+      {% comment %} Contact Us {% endcomment %}
+
+      {% if settings.enable_footer_contact %}
+      <div class="col-md-3 col-sm-6 col-xs-12">
+        <div class="footer-block" style="display:inline-block;">
+
+          {% if settings.footer_contact_title != blank %}
+          <h4>{{ settings.footer_contact_title }}</h4>
+          {% endif %}
+
+          <ul class="list-links list-unstyled">
+            <li class="a-info"><i class="fa fa-map-marker"></i><span>{{ shop.address.street }}</span></li>
+            <li class="a-info"><i class="fa fa-envelope"></i><span>{{ shop.email }}</span></li>
+            <li class="a-info"><i class="fa fa-phone"></i><span>{{ shop.phone }}</span></li>
+          </ul>
+
+        </div>
+      </div>
+      {% endif %}
+
+    </div>
+  </div>
+</div>
+
+<!-- End Footer Widgets -->
+
+
+<!-- Begin Footer Copyright -->
+
+<!-- End Footer Copyright -->
+
+<div id="checkLayout">
+  <span class="visible-xs-block"></span>
+  <span class="visible-sm-block"></span>
+  <span class="visible-md-block"></span>
+  <span class="visible-lg-block"></span>
+</div>

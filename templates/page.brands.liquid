@@ -1,0 +1,27 @@
+<div class="row">
+  <div id="col-main" class="col-sm-12 page-content page-brands">
+
+    <h2>{{ page.title }}</h1>
+    <div class="content">{{ page.content }}</div>
+    <ul class="vendor-list">
+      {% for product_vendor in shop.vendors %}
+      {% assign its_a_match = false %}
+      {% capture my_collection_handle %} {{ product_vendor | handleize | strip | escape  }} {% endcapture %}
+      {% assign my_collection_handle_stripped = my_collection_handle | strip | escape %}
+
+      {% for collection in collections %}
+      {% if my_collection_handle_stripped == collection.handle %}
+      {% assign its_a_match = true %}
+      {% endif %}
+      {% endfor %}
+
+      {% if its_a_match %}
+      <li class="vendor-list-item"><a href="/collections/{{ product_vendor | handleize }}">{{ product_vendor }}</a></li>
+      {% else %}
+      <li class="vendor-list-item">{{ product_vendor | link_to_vendor }}</li>
+      {% endif %}
+      {% endfor %}
+    </ul>
+
+  </div>
+</div>

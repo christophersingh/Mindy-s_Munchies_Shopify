@@ -1,0 +1,21 @@
+{% assign submenu = l.title | handleize %}
+{% if linklists[submenu].links.size > 0 %}
+<li class="dropdown dropdown-submenu" style="text-align:center;">
+  <a href="{{ l.url }}" class="dropdown-link">
+    <span>{{ l.title }}</span>
+  </a>
+  {% if nav-link == 0 %}
+  <span class="expand">
+    <i class="fa fa-long-arrow-right hidden-xs"></i>
+    <i class="fa fa-plus visible-xs"></i>
+  </span>
+  {% endif %}
+  <ul class="dropdown-menu">
+    {% for l in linklists[submenu].links %}
+    {% include 'nav-sub-link' %}
+    {% endfor %}
+  </ul>
+</li>
+{% else %}
+<li><a tabindex="-1" href="{{ l.url }}"><strong><span>{{ l.title }}</span></strong></a></li>
+{% endif %}

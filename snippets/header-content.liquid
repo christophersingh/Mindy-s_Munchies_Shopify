@@ -1,0 +1,178 @@
+<div class="header-container">
+
+  <div class="top-bar hidden-xs">
+    <div class="container">
+      <div class="row">
+
+        <div class="top-bar-left col-md-2 col-sm-2 col-xs-12">
+          {% include 'currencies-switcher' %}
+        </div>
+
+        <div class="top-bar-right col-md-10 col-sm-10 col-xs-12">
+          <ul class="list-inline">
+            {% include 'customer-links' %}
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="header-main">
+    <div class="container">
+      <div class="row">
+
+        <div class="visible-xs">
+          <div class="logo-mobile">
+            <a href="/" title="{{ shop.name | escape }}" class="logo-site">
+              {% if settings.site_logo == "logo.png" %}
+              <img class="mobile-logo" src="{{ 'logo@2x.png' | asset_url }}" alt="{{ shop.name | escape }}" />
+              {% else %}
+              <span>{{ settings.logo_text | escape }}</span>
+              {% endif %}
+            </a>
+          </div>
+
+          <div class="header-mobile">
+            <div class="navbar navbar-responsive-menu">
+              <div class="btn-navbar responsive-menu" data-toggle="offcanvas">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+              </div>
+            </div>
+
+            <div class="header-mobile-icon customer-account">
+              <a href="/account" title="My Account"></a>
+            </div>
+
+            {% if settings.wishlist_page %}
+            {% if settings.select_wishlist_page != '' %}
+            <div class="header-mobile-icon customer-wishlist">
+              {% if customer %}
+              <a class="wl-url" href="{{pages[settings.select_wishlist_page].url}}" data-pwl="{{pages[settings.select_wishlist_page].url}}" title="Wishlist"></a>
+              {% else %}
+              <a href="/account/login" title="Wishlist"></a>
+              {% endif %}
+            </div>
+            {% endif %}
+            {% endif %}
+
+            {% include 'currencies-switcher-mobile' %}
+          </div>
+        </div>
+
+        <div class="header-logo col-md-2 col-sm-3 hidden-xs">
+          <a href="/" title="{{ shop.name | escape }}" class="logo-site">
+            {% if settings.site_logo == "logo.png" %}
+            <img class="logo" src="{{ 'logo.png' | asset_url }}" alt="{{ shop.name | escape }}" />
+            {% else %}
+            <span>{{ settings.logo_text | escape }}</span>
+            {% endif %}
+          </a>
+        </div>
+
+        {% if settings.enable_search or settings.enable_header_contact  or settings.enable_cart %}
+        <div class="header-search-cart col-md-10 col-sm-9">
+          {% if settings.enable_search %}
+          <div class="searchbox">
+            <form id="search" class="navbar-form search" action="/search" method="get">
+              <input type="hidden" name="type" value="product" />
+              <input id="bc-product-search" type="text" name="q" class="form-control"  placeholder="{{settings.search_placeholder}}" autocomplete="off" />
+              <button type="submit" class="search-icon"></button>
+            </form>
+
+            {% if settings.enable_ajax_search %}	
+            <div id="result-ajax-search" class="hidden-xs">
+              <ul class="search-results"></ul>
+            </div>
+            {% endif %}
+          </div>
+          {% endif %}      
+
+          {% if settings.enable_header_contact  or settings.enable_cart %}
+          <div class="cart-contact-wrapper">
+
+            {% if settings.enable_header_contact %}
+            <div class="header-phone"><i class="fa fa-phone"></i>{{ shop.phone }}</div>
+            {% endif %}
+
+            {% if settings.enable_cart %}
+            <div class="top-cart-holder{% if settings.cart_styles == 'dropdown' %} hover-dropdown{% endif %}">
+              <div class="cart-target">		
+
+                {% if settings.cart_styles == 'dropdown' %}
+                <a href="javascript:void(0)" class="basket dropdown-toggle dropdown-link" title="cart" data-toggle="dropdown">
+                  <span class="number"><span class="n-item">{{ cart.item_count }}</span></span>
+                </a>
+
+                <div class="cart-dd dropdown-menu">
+                  <div id="cart-info">
+                    <div id="cart-content" class="cart-content">
+                      <div class="loading"></div>
+                    </div>
+                  </div>
+                </div>
+
+                {% else %}
+                <a href="javascript:void(0)" class="basket cart-toggle" title="cart">
+                  <span class="number"><span class="n-item">{{ cart.item_count }}</span></span>
+                </a>
+
+                {% endif %}
+
+              </div>
+            </div>
+            {% endif %}
+
+          </div>
+          {% endif %}
+        </div>
+        {% endif %}
+
+      </div>
+    </div>
+  </div>
+
+  {% if settings.nav_linklist != '' or settings.enable_social_icons %}
+  <div class="header-nav">
+    <div class="container">
+
+      {% if settings.nav_linklist != '' %}
+      <div class="horizontal-menu dropdown-fix" style="text-align:center;">
+        <div class="sidemenu-holder">
+          <div class="navigation">
+
+            <nav class="navbar">
+              <div class="collapse navbar-collapse">
+                <ul class="main-nav">
+                  <li class="logo-sticky" style="text-align:center;">
+                    <a href="/" title="{{ shop.name | escape }}" class="logo-site">
+                      {% if settings.site_logo == "logo.png" %}
+                      <img class="logo" src="{{ 'logo.png' | asset_url }}" alt="{{ shop.name | escape }}" />
+                      {% else %}
+                      <span>{{ settings.logo_text | escape }}</span>
+                      {% endif %}
+                    </a>
+                  </li>
+                  {% for l in linklists[settings.nav_linklist].links %}
+                  {% include 'nav-link' with 0 %}
+                  {% endfor %}
+                </ul>
+              </div>
+            </nav>
+
+          </div>
+        </div>
+      </div>
+      {% endif %}
+
+      {% if settings.enable_social_icons %}
+      {% include 'social-media-icons' %}
+      {% endif %}
+
+    </div>
+  </div>
+  {% endif %}
+
+</div>

@@ -1,0 +1,37 @@
+<div id="widget-social" class="header-social">
+    <ul class="widget-social list-inline">
+
+      {% if settings.social_icons_facebook_show %}
+      <li>
+        <a target="_blank" href="{{ settings.social_icons_facebook_link }}" class="social-icon-inner facebook" title="Facebook">
+          <i class="fa fa-facebook"></i>
+        </a>
+      </li>
+      {% endif %}
+      
+      {% if settings.social_icons_twitter_show %}
+      <li>
+        <a target="_blank" href="{{ settings.social_icons_twitter_link }}" class="social-icon-inner twitter" title="Twitter">
+         <i class="fa fa-twitter"></i>
+        </a>
+      </li>
+      {% endif %}
+      
+      {% if settings.social_icons_vimeo_show %}
+      <li>
+        <a target="_blank" href="https://www.instagram.com/mindysmunchies/?hl=en" class="social-icon-inner instagram" title="Instagram">
+          <i class="fa fa-instagram"></i>
+        </a>
+      </li>
+      {% endif %}
+      
+      {% if settings.social_icons_pinterest_show %}
+      <li>
+        <a target="_blank" href="{{ settings.social_icons_pinterest_link }}" class="social-icon-inner pinterest" title="Pinterest">
+          <i class="fa fa-pinterest"></i>
+        </a>
+      </li>
+      {% endif %}
+
+    </ul>
+</div>

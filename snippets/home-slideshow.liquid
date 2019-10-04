@@ -1,0 +1,94 @@
+<div class="bc-wrapper{% if settings.slideshow_placement == 'boxes' %} boxes{% endif %}">
+
+  <div class="home-slideshow-wrapper swiper-container" data-animation="{{settings.home_slideshow_flex_animation}}">
+
+    <div id="home-slideshow" class="swiper-wrapper">
+      {% for i in (1..5) %}
+      {% assign show = 'show_slide_' | append: i %}
+
+      {% if settings[show] %}
+      {% assign textAlign = 'align_slide_' | append: i %}
+      {% assign heading = 'content_layer_first_' | append: i %}
+      {% assign headingText = 'heading_slide_' | append: i %}
+      {% assign headingImage = 'layer_first_image_' | append: i %}
+      {% assign textButton = 'button_slide_' | append: i %}
+      {% assign video = 'video_slide_' | append: i %}
+      {% assign image = 'image_slide_' | append: i %}
+      {% assign link = 'link_slide_' | append: i %}
+
+      <div class="swiper-slide" style="background-image:url({{image | append: '.jpg' | asset_url}}); width: auto; min-height: 200px;">
+        <img src = "{{image | append: '.jpg' | asset_url}}" alt="" />
+        <div class="container" style="position: absolute; right: 0; bottom: 0;">
+          <div class="swiper-content {{ settings[textAlign] }} slide-{{i}}" style="position: absolute; right: 0; bottom: 0;">
+            <div class="container-box" style="position: absolute; right: 0; bottom: 0; visibility: hidden;">
+              {% if settings[heading] != 'none' %}
+              <div class="heading">
+                {% if settings[heading] == 'image' %}
+                <img src = "{{ headingImage | append: '.png' | asset_url }}" alt="" />
+                {% else %}
+                {{ settings[headingText] }}
+                {% endif %}
+              </div>
+              {% endif %}
+
+              <div class="caption-link">
+                {% if settings[textButton] != empty %}
+                <a class="slider-button" href="{{settings[link]}}">{{settings[textButton]}}</a>
+                {% endif %}                
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {% if settings[video] != blank %}
+        <div class="video-slide" style="display: none;">
+          <video controls class="video" autoplay="" loop="" muted="" preload="auto" data-width="0" data-height="0">
+            <source src="{{ settings[video] }}" type="video/mp4">
+          </video>
+        </div>
+        {% endif %}
+
+      </div>
+
+      {% endif %}
+      {% endfor %}
+    </div>
+
+    <!-- Add Pagination -->
+    {% if settings.home_slideshow_paging %}
+    <div class="swiper-pagination swiper-pagination-white"></div>
+    {% endif %}
+
+    <!-- Add Arrows -->
+    {% if settings.home_slideshow_navigator %}
+    <div class="swiper-button-next swiper-button-white"></div>
+    <div class="swiper-button-prev swiper-button-white"></div>
+    {% endif %}
+
+  </div>
+
+</div>
+
+<script>
+  jQuery(document).ready(function($) {
+
+    if ( bcMsieVersion.MsieVersion() == 0 ){
+      AT_Main.homeSlideshow();
+    }
+
+    else{
+      if ( bcMsieVersion.MsieVersion() > 9 || !!navigator.userAgent.match(/Trident.*rv\:11\./)){
+        AT_Main.homeIE();
+      }
+      else{
+        jQuery('#home-slideshow').owlCarousel({
+          nav			: true
+          ,dots 		: true
+          ,items		: 1
+          ,navText	: ['<i class="fa fa-angle-left" title="previous"></i>', '<i class="fa fa-angle-right" title="Next"></i>']
+        })
+      }
+    }
+
+  });
+</script>

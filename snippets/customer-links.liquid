@@ -1,0 +1,60 @@
+{% if settings.enable_top_bar_box %}
+<li class="box-welcome" style="color:white;">{{ settings.top_bar_text }}</li>
+{% endif %}
+
+{% if shop.customer_accounts_enabled %}
+
+  {% if settings.enable_header_customer_links %}  
+    <li>
+      <a href="/account" id="customer_login_link" style="color:white;" title="My Account">
+        <span>{{ 'general.header.my_account' | t }}</span>
+      </a>
+    </li>
+  {% endif %}
+
+  {% if settings.wishlist_page %}
+    {% if settings.select_wishlist_page != '' %}
+      <li class="customer-wishlist">
+        {% if customer %}
+          <a class="wl-url" href="{{pages[settings.select_wishlist_page].url}}" data-pwl="{{pages[settings.select_wishlist_page].url}}" style="color:white;" title="Wishlist">
+            <span>{{ 'general.header.wish_list' | t }}</span>
+          </a>
+        {% else %}
+          <a href="/account/login" style="color:white;" title="Wishlist">
+            <span>{{ 'general.header.wish_list' | t }}</span>
+          </a>
+        {% endif %}
+      </li>
+    {% endif %}
+  {% endif %}
+
+{% endif %}
+
+{% if settings.enable_top_bar_blog %}
+  <li>
+    <a href="{{ settings.top_bar_blog_link}}" style="color:white;">
+      <span>Blog</span>
+    </a>
+  </li>
+{% endif %}
+
+{% if shop.customer_accounts_enabled %}
+
+  {% if settings.enable_header_customer_links %}  
+    {% if customer %}
+    <li>
+      <a href="/account/logout" style="color:white;" title="Logout">
+        <span>{{ 'general.header.logout' | t }}</span>
+      </a>
+    </li>
+    {% else %}
+    <li>
+      <a href="/account/login" style="color:white;" title="Login">
+        <span>{{ 'general.header.login' | t }}</span>
+      </a>
+    </li>
+    {% endif %}
+  {% endif %}
+
+{% endif %}
+

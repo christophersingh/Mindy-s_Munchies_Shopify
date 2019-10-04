@@ -1,0 +1,90 @@
+<div class="row">
+  <div id="col-main" class="col-sm-12 page-search">
+
+    {% if search.performed %}
+      {% paginate search.results by 8 %}
+
+      {% if search.terms == "" %}
+        {% capture search_title %}{{ search.terms | escape }}{% endcapture %}
+        <h4 class="title">Search Results</h4>
+        <div class="row">
+          <div class="col-sm-12">
+            <form class="search-form" action="/search">
+              <input type="hidden" name="type" value="product" />
+              <input type="text" name="q" class="search_box" placeholder="{{settings.search_placeholder}}" value="{{ search.terms }}" />
+              <button type="submit" class="search-submit" title="Search">
+                <i class="fa fa-search"></i>
+              </button>
+            </form>
+          </div>
+        </div>
+      {% else %}
+
+        {% if search.results == empty %}
+          {% capture search_title %}{{ search.terms | escape }}{% endcapture %}
+          <h4 class="title">Search Results</h4>
+          <div class="row">
+            <div class="col-sm-12">
+              <form class="search-form" action="/search">
+                <input type="hidden" name="type" value="product" />
+                <input type="text" name="q" class="search_box" placeholder="{{settings.search_searchtext}}" value="{{ search.terms }}"  />
+                <button type="submit" class="search-submit" title="Search">
+                  <i class="fa fa-search"></i>
+                </button>
+              </form>
+            </div>
+          </div>
+        {% else %}
+
+          {% capture search_title %}{{ search.terms | escape }}{% endcapture %}
+          <h4 class="title">Search Results </h4>
+          <div class="row">
+            <div class="col-sm-12">
+              <form class="search-form" action="/search">
+                <input type="hidden" name="type" value="product" />
+                <input type="text" name="q" class="search_box" value="{{ search.terms }}"  />
+                <button type="submit" class="search-submit" title="Search">
+                  <i class="fa fa-search"></i>
+                </button>
+              </form>
+            </div>
+            <div class="cata-product cp-grid col-sm-12">
+              {% for product in search.results %}
+                {% capture p_link %}{{ product.url }}{% endcapture %}
+                {% if p_link contains 'products' %}
+                  <div class="product-grid-item">
+                    {% include 'product-item' %}
+                  </div>
+                {% else %}
+                  <div class="article-grid-item">
+                    {% include 'article-result' %}
+                  </div>
+                {% endif %}
+              {% endfor %}
+            </div>
+          </div>
+
+          {% include 'pagination' %}
+
+        {% endif %}
+      {% endif %}
+
+      {% endpaginate %}
+
+    {% else %}
+
+      {% capture search_title %}{{ search.terms | escape }}{% endcapture %}
+      <h4 class="title">{{ 'search.general.no_products' | t: title: search_title }}</h4>
+      <div class="col-sm-12">
+        <form class="search-form" action="/search">
+          <input type="hidden" name="type" value="product" />
+          <input type="text" name="q" class="search_box" placeholder="{{settings.search_placeholder}}" value="{{ search.terms }}"  />
+          <button type="submit" class="search-submit" title="Search">
+            <i class="fa fa-search"></i>
+          </button>
+        </form>
+      </div>
+    {% endif %}
+    
+  </div>
+</div>
