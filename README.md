@@ -1,4 +1,4 @@
-# Mindy-s_Munchies_Shopify
+# Mindy's_Munchies_Shopify
 
 This private repo contains the most update-to-date version of shopify code 
 
